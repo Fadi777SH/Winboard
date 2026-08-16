@@ -1,0 +1,32 @@
+﻿<Window x:Class="Winboard.ViewModel.UI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Winboard"
+        mc:Ignorable="d" WindowStyle="none" MouseLeftButtonDown="holdUI"
+        Title="Win" Height="30" Width="450">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".4*"/>
+            <ColumnDefinition Width=".6*"/>
+            <ColumnDefinition Width=".4*"/>
+
+        </Grid.ColumnDefinitions>
+        <!-- MainOption-->
+        <TextBlock Grid.Column="1" Name="Secondaryoption" Text="{Binding MyText}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" />
+
+
+
+
+        <!-- SecondOption-->
+        <TextBlock Grid.Column="0" Name="Primaryoption" Text="{Binding MyText}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40"/>
+
+
+
+        <!-- Translation-->
+        <TextBlock Grid.Column="2" Name="Translationoption" Text="{Binding MyText}"  VerticalAlignment="Center" HorizontalAlignment="Center"  Width="40" />
+
+    </Grid>
+
+</Window>

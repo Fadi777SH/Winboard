@@ -1,0 +1,74 @@
+public class Trie
+{
+    public int Count { get; set; }
+    public Dictionary<int, Trie>? Childern { get; set; } 
+
+    public Trie(int count = 0)
+    {
+        Count = count;
+    }
+    public void AddChild(int key, Trie child)
+    {
+        Childern ??= new Dictionary<int, Trie>();
+        Childern[key] = child;
+    }
+}
+
+    public static List<(int, float)> Topk(Trie trie, List<int> Context, int NumberOfAnswers, float backoffpb)
+
+    {
+
+        var Scorelist = new List<(int, float)>();
+
+        if (Context.Count == 0)
+        {
+
+            var CandidatesWordsList = new List<(int, int)>();
+
+
+            CandidatesWordsList = trie.Childern.Select(F => (F.Key, F.Value.Count)).OrderByDescending(X => X.Count).Take(10).ToList();
+
+            foreach (var (W, C) in CandidatesWordsList)
+
+            {
+
+                var ScoreW_P = (float)C / trie.Count * backoffpb;
+
+                Scorelist.Add((W, ScoreW_P));
+
+            }
+            return Scorelist;
+
+        }
+
+
+        var head = Context[0];
+
+
+        if (trie.Childern == null || !trie.Childern.TryGetValue(head, out Trie count))
+
+        {
+
+            return new List<(int, float)>();
+
+        }
+
+        return Topk(count, Context.GetRange(1, Context.Count - 1), NumberOfAnswers, backoffpb);
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

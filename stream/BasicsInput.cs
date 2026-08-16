@@ -1,0 +1,70 @@
+﻿using System;
+using System.Windows.Automation;
+using System.Windows.Automation.Text;
+
+
+
+public class BasicsInput
+{
+
+
+    public (string CurrentLine, string CurrentWord) GetCurrentLineAndWord(AutomationElement element)
+    {
+        (string, string) HollowString = (" ", " ");
+        if (!element.Current.HasKeyboardFocus)
+        {
+            return HollowString;
+        }
+
+        if (!element.TryGetCurrentPattern(TextPattern.Pattern, out object pattern) || element.GetCurrentPattern == null || element.Current.ClassName == "TermControl")
+        {
+            return HollowString;
+
+        }
+
+        TextPattern textPattern = (TextPattern)pattern;
+        TextPatternRange[] TheWholeLine = textPattern.GetSelection();
+        if (TheWholeLine.Length == 0 || TheWholeLine == null)
+        {
+            return HollowString;
+        }
+        TextPatternRange TakeTheFirstElement = TheWholeLine[0].Clone();
+
+        TakeTheFirstElement.MoveEndpointByUnit(TextPatternRangeEndpoint.Start, TextUnit.Character, -1);
+        if (TakeTheFirstElement.GetText(1).IsWhiteSpace())
+        {
+            HollowString.Item1 = GetCurrentLine(TakeTheFirstElement);
+            return HollowString;
+        }
+
+        var CurrentWord = GetCrruntWord(TakeTheFirstElement);
+        var CurrentLine = GetCurrentLine(TakeTheFirstElement);
+
+
+
+        return (CurrentLine, CurrentWord);
+
+    }
+
+    private string GetCrruntWord(TextPatternRange element)
+    {
+        element.ExpandToEnclosingUnit(TextUnit.Word);
+        var CurrentWord = element.GetText(-1).Trim();
+        return CurrentWord;
+    }
+
+    private string GetCurrentLine(TextPatternRange element)
+    {
+
+        element.ExpandToEnclosingUnit(TextUnit.Line);
+        var CurrentLine = element.GetText(-1).Trim();
+        return CurrentLine;
+    }
+    public bool IsTextField(AutomationElement e)
+    {
+
+        return e.Current.IsEnabled == false ? false : true;
+    }
+
+}
+
