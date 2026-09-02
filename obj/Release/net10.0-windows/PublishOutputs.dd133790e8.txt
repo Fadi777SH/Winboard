@@ -1,6 +1,0 @@
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\bin\Release\net10.0-windows\publish\Winboard.exe
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\bin\Release\net10.0-windows\publish\Winboard.dll
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\bin\Release\net10.0-windows\publish\Winboard.deps.json
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\bin\Release\net10.0-windows\publish\Winboard.runtimeconfig.json
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\bin\Release\net10.0-windows\publish\Winboard.pdb
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\bin\Release\net10.0-windows\publish\Universal.Phonetic.Metaphone.dll

@@ -87,10 +87,13 @@ public class NGramModel
         {
             return result.Select(F => (F.Item1, F.Item2)).Take(10).ToList();
         }
+
+        if (Context.Count == 0) return result;
+
         return Predict(searcher, Context.GetRange(1, Context.Count - 1), Ngram , backoff*=0.4f);
     }
-
-
+    
+    
 
     public static void BurnThisNode(int Limit, Trie MainTrie)
     {

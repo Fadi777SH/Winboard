@@ -16,40 +16,48 @@ namespace Winboard
         static BasicsInput basicsInput = new();
         static Assembly _assembly = new();
         static Translation translation = new();
+        static string NewElement { get; set; }
+        static string CurrentElement { get; set; }
+        static AutomationFocusChangedEventHandler focusHandler = null;
         static AutomationPropertyChangedEventHandler propChangeHandler;
 
         static public  void intextfield()
         {
+            UnsubscribePropertyChange();
 
             AutomationElement e = AutomationElement.FocusedElement;
             if (e == null) return;
             if (!basicsInput.IsTextField(e))
             {
-                Console.WriteLine("no text field");
+                System.Diagnostics.Debug.WriteLine("no text field");
                 return;
             }
 
-
-
-
-           
             Automation.AddAutomationPropertyChangedEventHandler(AutomationElement.FocusedElement,
-                TreeScope.Element, propChangeHandler = new AutomationPropertyChangedEventHandler(OnPropertyChange),
+                TreeScope.Subtree, propChangeHandler = new AutomationPropertyChangedEventHandler(OnPropertyChange),
                 ValuePattern.ValueProperty);
 
+            SubscribeToFocusChange();
 
+            CurrentElement  = AutomationElement.FocusedElement.Current.Name;
+
+
+            SubscribeToFocusChange();
+            
+            
+            
 
         }
 
         static private void OnPropertyChange(object src, AutomationPropertyChangedEventArgs  arg)
         {
 
+            
 
-    
             if (arg.NewValue != arg.OldValue)
             {
-    
-            
+
+
                 if (!basicsInput.IsTextField(AutomationElement.FocusedElement))
                 {
                     Console.WriteLine("no text field");
@@ -58,31 +66,67 @@ namespace Winboard
 
                 var tot = basicsInput.GetCurrentLineAndWord(AutomationElement.FocusedElement);
                 answersblock = _assembly.SetOrder(tot.CurrentLine, tot.CurrentWord);
-                var Prime = answersblock.Completion.Item1 != "" ?answersblock.Completion.Item1 : answersblock.Correction.Item1;
+                var Prime = answersblock.Completion.Item1 != "" ? answersblock.Completion.Item1 : answersblock.Correction.Item1;
                 if (Prime == null) Prime = "";
 
                 var sec = answersblock.SecondaryCompletion.Item1 != "" ? answersblock.SecondaryCompletion.Item1 : answersblock.SecondaryCorrection.Item1;
                 if (sec == null) sec = "";
 
                 var Trans = translation.TranslateAsync(Prime, "en", "ar");
-            
-                Program.uI.Dispatcher.Invoke(() => Program.uI.Primaryoption.Text = Prime);
-                Program.uI.Dispatcher.Invoke(() => Program.uI.Secondaryoption.Text = sec);
-                Program.uI.Dispatcher.Invoke(async () => Program.uI.Translationoption.Text = await Trans);
 
-
+                Program.uI.Dispatcher.Invoke(() => Program.uI.PrimaryReactangle.Text = Prime);
+                Program.uI.Dispatcher.Invoke(() => Program.uI.SecondaryReactangle.Text = sec);
+                Program.uI.Dispatcher.Invoke(async () => Program.uI.TranslationReactangle.Text = await Trans);
 
             }
+            
+           
+         
+           
+           
 
         }
         public static void UnsubscribePropertyChange()
         {
-            if (propChangeHandler != null)
-            {
-                Automation.RemoveAutomationPropertyChangedEventHandler(AutomationElement.FocusedElement, propChangeHandler);
-            }
+            if (propChangeHandler == null) return;
+
+            Automation.RemoveAutomationPropertyChangedEventHandler(AutomationElement.FocusedElement, propChangeHandler);
+            
+            propChangeHandler = null;
         }
-        
+
+
+
+        private static void OnFocusChange(object src, AutomationFocusChangedEventArgs e)
+        {
+
+            NewElement = AutomationElement.FocusedElement.Current.Name;
+
+            if (NewElement != CurrentElement)
+            {
+
+                CurrentElement = NewElement;
+
+                intextfield();
+                
+            }
+            
+            
+           
+        }
+        public static void SubscribeToFocusChange()
+        {
+            //UnSubscribeToFocusChange();
+            focusHandler = new AutomationFocusChangedEventHandler(OnFocusChange);
+            Automation.AddAutomationFocusChangedEventHandler(focusHandler);
+        }
+        private static void UnSubscribeToFocusChange()
+        {
+            if (focusHandler == null) return;
+            Automation.RemoveAutomationFocusChangedEventHandler(focusHandler);
+            focusHandler = null;
+        }
+
 
     }
 

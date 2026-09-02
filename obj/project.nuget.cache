@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "GO8wK6Ut4PM=",
+  "dgSpecHash": "GNrRh2Qz8/Q=",
   "success": true,
   "projectFilePath": "C:\\Users\\FadiSK\\source\\repos\\WinBoard\\WinBoard\\Winboard.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\FadiSK\\.nuget\\packages\\communitytoolkit.highperformance\\8.4.2\\communitytoolkit.highperformance.8.4.2.nupkg.sha512",
+    "C:\\Users\\FadiSK\\.nuget\\packages\\inputsimulator\\1.0.4\\inputsimulator.1.0.4.nupkg.sha512",
     "C:\\Users\\FadiSK\\.nuget\\packages\\k4os.compression.lz4\\1.3.8\\k4os.compression.lz4.1.3.8.nupkg.sha512",
     "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.data.sqlite\\10.0.10\\microsoft.data.sqlite.10.0.10.nupkg.sha512",
     "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.data.sqlite.core\\10.0.10\\microsoft.data.sqlite.core.10.0.10.nupkg.sha512",
@@ -17,7 +18,23 @@
     "C:\\Users\\FadiSK\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\3.53.3\\sqlitepclraw.lib.e_sqlite3.3.53.3.nupkg.sha512",
     "C:\\Users\\FadiSK\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.11\\sqlitepclraw.provider.e_sqlite3.2.1.11.nupkg.sha512",
     "C:\\Users\\FadiSK\\.nuget\\packages\\universal.phonetic.metaphone\\1.0.0\\universal.phonetic.metaphone.1.0.0.nupkg.sha512",
-    "C:\\Users\\FadiSK\\.nuget\\packages\\zstdsharp.port\\0.8.8\\zstdsharp.port.0.8.8.nupkg.sha512"
+    "C:\\Users\\FadiSK\\.nuget\\packages\\zstdsharp.port\\0.8.8\\zstdsharp.port.0.8.8.nupkg.sha512",
+    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.11\\microsoft.aspnetcore.app.runtime.win-x64.10.0.11.nupkg.sha512",
+    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.11\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.11.nupkg.sha512",
+    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.11\\microsoft.netcore.app.runtime.win-x64.10.0.11.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'InputSimulator 1.0.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net10.0-windows7.0'. This package may not be fully compatible with your project.",
+      "projectPath": "C:\\Users\\FadiSK\\source\\repos\\WinBoard\\WinBoard\\Winboard.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\FadiSK\\source\\repos\\WinBoard\\WinBoard\\Winboard.csproj",
+      "libraryId": "InputSimulator",
+      "targetGraphs": [
+        "net10.0-windows"
+      ]
+    }
+  ]
 }

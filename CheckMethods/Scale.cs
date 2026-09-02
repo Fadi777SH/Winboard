@@ -24,7 +24,7 @@ public class Scale
     public Answersblock answersblock( int Currentstate, List<(string, float)> NgramProbabiltities, string CurrentWord = "", List<(string, float)> LevenshteinProbabiltities = null)
     {
 
-        //Currentstate = 1 -> completion only
+
 
 
         if (Currentstate == 1)
@@ -44,53 +44,30 @@ public class Scale
 
         }
 
-        //Currentstate = 2 -> PreFix Needed
-
-        //else if (Currentstate == 2)
-        //{
-        //    NgramProbabiltities.OrderByDescending(f => f.Item2);
-        //    NgramProbabiltities.RemoveAll(f => !(f.Item1 != CurrentWord));
-        //    if (NgramProbabiltities.Count > 0)
-        //        CreateBlock.Completion = NgramProbabiltities[0];
-
-        //    else answersblock(3, NgramProbabiltities, CurrentWord, LevenshteinProbabiltities);
-
-        //    if (NgramProbabiltities.Count > 1)
-        //        CreateBlock.SecondaryCompletion = NgramProbabiltities[1];
-        //    else CreateBlock.SecondaryCompletion = ("", 0);
-
-        //    CreateBlock.Correction = ("", 0);
-        //    CreateBlock.SecondaryCorrection = ("", 0);
-
-        //    return CreateBlock;
-        //}
-
-
-        // Currentstate = 3 -> correction needed
         else if (Currentstate == 3)
         {
-            List<(string, float)> mostPb;
+    
 
             LevenshteinProbabiltities.OrderByDescending(f => f.Item2);
             DeleteRepetitions(LevenshteinProbabiltities);
             DeleteRepetitions(NgramProbabiltities);
 
-            mostPb = MostProbable(LevenshteinProbabiltities, NgramProbabiltities, CurrentWord);
+            List<(string, float)> mostPb = MostProbable(LevenshteinProbabiltities, NgramProbabiltities, CurrentWord);
 
 
             if (NgramProbabiltities.Count != 0) 
-            CreateBlock.Completion = NgramProbabiltities[0];
+            CreateBlock.Correction = NgramProbabiltities[0];
 
-            CreateBlock.Correction = mostPb[0];
+            CreateBlock.Completion = mostPb[0];
 
             if (NgramProbabiltities.Count > 1)
-                CreateBlock.SecondaryCompletion = NgramProbabiltities[1];
+                CreateBlock.SecondaryCorrection = NgramProbabiltities[1];
             else
                 CreateBlock.SecondaryCompletion = ("", 0);
 
             if (mostPb.Count > 1)
-                CreateBlock.SecondaryCorrection = mostPb[1];
-            else CreateBlock.SecondaryCorrection = ("", 0);
+                CreateBlock.SecondaryCompletion = mostPb[1];
+            else CreateBlock.SecondaryCompletion = ("", 0);
 
             return CreateBlock;
             
@@ -106,7 +83,7 @@ public class Scale
         Answersblock block = new();
         if (PreFixList.Count > 0)
         {
-            //DeleteRepetitions(PreFixList);
+            DeleteRepetitions(PreFixList);
 
             block.Completion = (PreFixList.FirstOrDefault(), 7);
 
@@ -140,19 +117,18 @@ public class Scale
                 }
             }
         }
-
+        
         if (highestProbabilities.Count == 0)
         {
-
-            highestProbabilities.Add(checkbysound(CurrentWord));
             foreach(var (word,pp) in LevenshteinProbabiltities)
             {
                 highestProbabilities.Add((word, pp));
             }
         }
+        highestProbabilities.Add(checkbysound(CurrentWord));
 
 
-            return highestProbabilities.OrderByDescending(x => x.Item2).ToList();
+        return highestProbabilities.OrderByDescending(x => x.Item2).ToList();
 
 
     }

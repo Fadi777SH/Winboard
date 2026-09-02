@@ -1,8 +1,0 @@
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\Winboard.pdb
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\D3DCompiler_47_cor3.dll
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\PenImc_cor3.dll
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\PresentationNative_cor3.dll
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\vcruntime140_cor3.dll
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\wpfgfx_cor3.dll
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\e_sqlite3.dll
-C:\Users\FadiSK\source\repos\WinBoard\WinBoard\dist\Winboard.exe

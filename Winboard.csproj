@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<OutputType>Exe</OutputType>
+		<OutputType>WinExe</OutputType>
 		<TargetFramework>net10.0-windows</TargetFramework>
 		<RootNamespace>Winboard</RootNamespace>
 		<UseWpf>true</UseWpf>
-		<PublishSelfContained>false</PublishSelfContained>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PublishSelfContained>true</PublishSelfContained>
+		<ApplicationIcon>homepage_80953.ico</ApplicationIcon>
+		
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,6 +17,20 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<IsPublishable>True</IsPublishable>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Assets\SingleunitData.db-shm" />
+	  <None Remove="Assets\SingleunitData.db-wal" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\check-mark-hand-drawn-circle.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\clipboard-regular.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\clipboard.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\clipboard_17069276.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\icons8-pin-24.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\icons8-trash-24.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\WhiteFilledPinIcon.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\WhitePinIcon.png" />
+	  <None Remove="ViewModel\Effects\Fonts\Icons\WhiteTrashIcon.png" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <COMReference Include="UIAutomationClient">
@@ -28,6 +45,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="homepage_80953.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\check-mark-hand-drawn-circle.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\clipboard-regular.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\clipboard.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\clipboard_17069276.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\icons8-pin-24.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\icons8-trash-24.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\WhiteFilledPinIcon.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\WhitePinIcon.png" />
+	  <Resource Include="ViewModel\Effects\Fonts\Icons\WhiteTrashIcon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="InputSimulator" Version="1.0.4" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="Parquet.Net" Version="6.0.3" />
@@ -36,8 +70,35 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Assets\ClipPinLists.db">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Assets\SingleunitData.db">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
 	  </None>
 	</ItemGroup>
 </Project>

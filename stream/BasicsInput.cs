@@ -10,6 +10,7 @@ public class BasicsInput
 
     public (string CurrentLine, string CurrentWord) GetCurrentLineAndWord(AutomationElement element)
     {
+
         (string, string) HollowString = (" ", " ");
         if (!element.Current.HasKeyboardFocus)
         {

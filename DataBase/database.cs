@@ -1,8 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Windows.Shapes;
+using System.Xml;
 
 
 class GetData
@@ -11,11 +14,19 @@ class GetData
     
     private const string WIDtable = "WinTable";
 
-    public static readonly string GetPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "SingleunitData.db");
+    public static readonly string GetPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "SingleunitData.db");
     private static readonly string SQLpath = $@"Data Source={GetPath}";
+
+    public static readonly string GetPinTablePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "ClipPinLists.db");
+
+    private const string PinListstable = "PinListsTable";
+    private static readonly string SQLPinTablepath = $@"Data Source={GetPinTablePath}";
     private const string TrieTable = "WinTableTrie";
 
 
+    static private readonly Lazy<List<string>> _PinList = new(() => GetPinListsItems(PinListstable,SQLPinTablepath));
+
+    static public List<string> PinLists => _PinList.Value;
     static private readonly Lazy<Dictionary<int, (string, long)>> _dic = new(() => GetWordUnit(WIDtable, SQLpath));
     static public Dictionary<int, (string, long)> diction => _dic.Value;
 
@@ -55,7 +66,7 @@ class GetData
 
                 }
                 Reader.Close();
-                //connection.Close();
+   
             }
 
         }
@@ -64,6 +75,7 @@ class GetData
         {
             Console.WriteLine(ex.Message);
         }
+        System.Diagnostics.Debug.WriteLine("Main diction is Built");
         return WordUnitData;
     }
 
@@ -96,6 +108,8 @@ class GetData
                 using var gzip = new GZipStream(blobStream, CompressionMode.Decompress);
                 var trie = System.Text.Json.JsonSerializer.Deserialize<Trie>(gzip);
                 NullifyEmptyChildren(trie);
+
+                System.Diagnostics.Debug.WriteLine("Main Trie is Built");
                 return trie;
             }
             reader.Close();
@@ -122,7 +136,123 @@ class GetData
             NullifyEmptyChildren(child);
     }
 
+    private static void PinListsIntoFile(List<string> Phrases , string PinListsPath)
+    {
 
+
+
+
+        try
+        {
+
+            using (var connection = new SqliteConnection(PinListsPath))
+            {
+                connection.Open();
+                var Table = @"CREATE TABLE IF NOT EXISTS PinListsTable(Phrase TEXT NOT NULL) SQLITE_ENABLE_UPDATE_DELETE_LIMIT";
+
+
+                using (var command = new SqliteCommand(Table, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+                var TableConnection = "INSERT OR IGNORE INTO PinListsTable(Phrase) VALUES (@Phrase) ";
+
+                using (var command = new SqliteCommand(TableConnection, connection))
+                {
+                    foreach (var Phras in Phrases)
+                    {
+                        command.Parameters.AddWithValue("@Phrase", Phras);
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                    }
+                }
+            }
+        }
+
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    public static void UpdatePinItemData(List<string> Phrases)
+    {
+        
+        try
+        {
+
+            using (var connection = new SqliteConnection(SQLPinTablepath))
+            {
+                connection.Open();
+
+                var DeleteItemTableConnection = $@"DELETE FROM {PinListstable}";
+
+                using (var command = new SqliteCommand(DeleteItemTableConnection, connection))
+                {
+
+                    command.ExecuteNonQuery();
+                }
+
+                var AddNewItemConnection = "INSERT OR IGNORE INTO PinListsTable(Phrase) VALUES (@Phrase)";
+                using (var command = new SqliteCommand(AddNewItemConnection, connection))
+                {
+
+                    foreach (var S in Phrases)
+                    {
+                        command.Parameters.AddWithValue("@Phrase", S);
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                    }
+                }
+
+            }
+        }
+
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    public static List<string> GetPinListsItems(string TableName , string PinListsPath)
+    {
+        var PinLists = new List<string>();
+
+        var Table = $"SELECT * FROM {TableName}";
+
+        try
+        {
+            using var connection = new SqliteConnection(PinListsPath);
+            connection.Open();
+
+            using var comman = new SqliteCommand(Table, connection);
+
+            using var Reader = comman.ExecuteReader();
+            if (Reader.HasRows)
+            {
+                while (Reader.Read())
+                {
+
+                    var Item = Reader.GetString(0);
+
+                    PinLists.Add(Item);
+
+
+                }
+                Reader.Close();
+
+            }
+
+        }
+
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return PinLists;
+    }
 
 }
 
@@ -130,7 +260,11 @@ public class  WordRepository
 {
 
     private const string WIDtable = "WinTable";
-    private const string SQLpath = @"Data Source=C:\Users\FadiSK\source\repos\files\SingleunitData.db";
+
+    public static readonly string GetPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "SingleunitData.db");
+    private static readonly string SQLpath = $@"Data Source={GetPath}";
+
+    public static readonly string GetPinTablePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "ClipPinLists.db");
 
 
     private readonly SqliteConnection _connection;

@@ -3,30 +3,395 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Winboard"
-        mc:Ignorable="d" WindowStyle="none" MouseLeftButtonDown="holdUI"
-        Title="Win" Height="30" Width="450">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".4*"/>
-            <ColumnDefinition Width=".6*"/>
-            <ColumnDefinition Width=".4*"/>
+        xmlns:local="clr-namespace:Winboard.ViewModel"
+        mc:Ignorable="d" WindowStyle="none" MouseLeftButtonDown="holdUI"  ResizeMode="NoResize"
+        Topmost="True"
+        Title="MainWindow"  Height="30" Width="450"  AllowsTransparency="True" Background="Transparent" Closed="Window_Closed" WindowStartupLocation="Manual">
+    <Window.Resources>
+        <ControlTemplate x:Key="buttons" TargetType="ToggleButton">
+            <Border x:Name="border" Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style TargetType="Border" x:Key="clipstyle">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/ViewModel/Effects/Fonts/Icons/clipboard.png" Opacity="0.3" Stretch="UniformToFill"/>
+                </Setter.Value>
+            </Setter>
 
-        </Grid.ColumnDefinitions>
-        <!-- MainOption-->
-        <TextBlock Grid.Column="1" Name="Secondaryoption" Text="{Binding MyText}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Background.Opacity"  To ="1" Duration="0:0:0.4">
+                                    <DoubleAnimation.EasingFunction >
+                                        <CircleEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation >
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Background.Opacity"  To ="0.2" Duration="0:0:0.4">
+                                    <DoubleAnimation.EasingFunction >
+                                        <CircleEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation >
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style TargetType="Border" x:Key="borderbrushanime">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation   Storyboard.TargetProperty="BorderBrush"   To ="White" Duration="0:0:0.4">
+                                    <ColorAnimation.EasingFunction >
+                                        <CircleEase/>
+                                    </ColorAnimation.EasingFunction>
+                                </ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="BorderBrush" To ="#3FFFFFFF" Duration="0:0:0.4">
+                                    <ColorAnimation.EasingFunction >
+                                        <CircleEase/>
+                                    </ColorAnimation.EasingFunction>
+                                </ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style TargetType="ListView" x:Key="ListViewStyle">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border Name="ListBoard" Grid.Row="1" CornerRadius="5"
+                                Width="290" Height="70" MouseMove="ListBoard_MouseMove" Style = "{DynamicResource BorderHoverInstance}" Background="#303131" BorderThickness="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Name="C_Two" Width="90*"></ColumnDefinition>
+                                    <ColumnDefinition Name="C_one" Width="10*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton Style="{DynamicResource TuggleIcon}" Grid.Column="1" IsChecked="{Binding IsChecked}"   Click="PinIcon_Click"  x:Name="PinIcon" Width="15" Height="15" Margin="0,0,0,40" >
+                                    <Border   Width="15" Height="15" Margin="0,0,0,0">
+                                        <Image Source="/ViewModel/Effects/Fonts/Icons/WhiteFilledPinIcon.png"/>
+                                    </Border>
+                                </ToggleButton>
+                                <ToggleButton Style="{DynamicResource TuggleIcon}" Grid.Column="1" IsChecked="False"  Click="TrashIcon_click" Name="TrashIcon" Margin="0,40,0,0"  Width="15" Height="15">
+                                    <Border   Width="15" Height="15" Margin="0,0,0,0">
+                                        <Image Source="/ViewModel/Effects/Fonts/Icons/WhiteTrashIcon.png"/>
+                                    </Border>
+                                </ToggleButton>
+                                <TextBlock Grid.Column="0" Name="TextHolder" FontSize="15" Foreground="White" Width="300" Height="75" Text="{Binding UserCopy}"/>
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+           
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <ContentPresenter 
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="IsSelected" Value="True"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Line" x:Key="LinesStyle">
+            <Setter Property="Width" Value="360"/>
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Opacity" Value="0.5"/>
+            <Setter Property="X1" Value="360"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Stroke" Value="White"/>
+
+        </Style>
+        <Style TargetType="Border" x:Key="BorderHover">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="#FF838383" Duration="0:0:0.2">
+                                    <ColorAnimation.EasingFunction >
+                                        <CircleEase/>
+                                    </ColorAnimation.EasingFunction>
+                                </ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="#FF383737" Duration="0:0:0.2">
+                                    <ColorAnimation.EasingFunction >
+                                        <CircleEase/>
+                                    </ColorAnimation.EasingFunction>
+                                </ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Border" x:Key="BorderHoverOpacityChange">
+            <Setter Property="Opacity" Value="0.4"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"  Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Border" x:Key="BorderHoverInstance">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="White"/>
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type ToggleButton}" x:Key="TuggleIcon">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Opacity" Value="0.4"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Button}" x:Key="ClickBtn">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListBox" x:Key="ListBoxStyle">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border x:Name="ListBoard" Grid.Row="1" CornerRadius="5"  
+                                Width="290" Height="70" 
+                                MouseMove="ListBoard_MouseMove"
+                                Style = "{DynamicResource BorderHoverInstance}" 
+                                BorderThickness="2" Background="#303131">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Name="C_Two" Width="90*"></ColumnDefinition>
+                                    <ColumnDefinition Name="C_one" Width="10*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <ToggleButton Style="{DynamicResource TuggleIcon}" Grid.Column="1"  Name="PinIcon" Width="15" Height="15" Margin="0,0,0,40" >
+                                    <Border Style="{DynamicResource BorderHoverOpacityChange}" Width="15" Height="15" Margin="0,0,0,0">
+                                        <Image Source="/ViewModel/Effects/Fonts/Icons/WhiteFilledPinIcon.png"/>
+                                    </Border>
+                                </ToggleButton>
+                                <Button  Style="{DynamicResource ClickBtn}" Grid.Column="1" x:Name="TrashIcon" Margin="0,40,0,0"  Width="15" Height="15" Click="TrashIcon_click">
+                                    <Border    Style="{DynamicResource BorderHoverOpacityChange}"  Width="15" Height="15" Margin="0,0,0,0">
+                                        <Image Source="/ViewModel/Effects/Fonts/Icons/WhiteTrashIcon.png"/>
+                                    </Border>
+                                </Button>
+                                <TextBlock Grid.Column="0" Margin="10,0,5,0" Name="TextHolder" FontSize="15" Foreground="White" Width="300" Height="75" Text="{Binding}"/>
+
+                            </Grid>
+
+
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+
+        </Style >
+    </Window.Resources>
+
+
+
+    <Border Name="MainBoard" BorderBrush="White"  BorderThickness="2"  CornerRadius="7" Background="Transparent">
+        <!--Main Winboard style-->
+        <Border  Padding="1" CornerRadius="1" Background="#10FFFFFF" >
+            <Grid Margin="0,-10,-5,-10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Name="LeftGrid" Width="25*"/>
+                    <ColumnDefinition Name="MiddleGrid" Width="40*"/>
+                    <ColumnDefinition Name="RightGrid" Width="25*"/>
+                </Grid.ColumnDefinitions>
+                <Line Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Right" Stroke="White"  Y1="20" Opacity="0.5" Grid.ColumnSpan="2" Margin="0,12,199,0" />
+                <Line Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="White"  Y1="20" Opacity="0.5" Grid.ColumnSpan="2" Margin="199,12,0,0" />
+
+                <TextBlock Grid.Column="1"  FontFamily = "Century" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Name="PrimaryReactangle" Margin="10,10,10,10" Text="{Binding MyText}"/>
+                <TextBlock Grid.Column="0"  FontFamily = "Century" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Name="SecondaryReactangle" Margin="10,10,10,10" Text="{Binding MyText}" />
+                <TextBlock Grid.Column="3" FontFamily="Arabic Typesetting" Foreground="White"   FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Name="TranslationReactangle" Margin="10,10,10,10"  Text="{Binding MyText}"/>
+
+                <Border Name="Clipboard_box" Style="{StaticResource clipstyle}" Grid.Column="3"   CornerRadius="1"  Width="15" Height="15" Margin="100,0,0,0">
+                    <ToggleButton Name="Clipboard_button"   Template="{StaticResource buttons}"   MouseMove="Clipboard_box_MouseMove"   Background="Transparent" Width="15" Height="15" HorizontalAlignment="Center" BorderThickness="0"   VerticalAlignment="Center">
+                    </ToggleButton>
+                </Border>
 
 
 
 
-        <!-- SecondOption-->
-        <TextBlock Grid.Column="0" Name="Primaryoption" Text="{Binding MyText}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40"/>
+
+
+                <!--clipboard-->
+                <Popup 
+                       MouseMove="ClipMenu_MouseMove"
+                       MouseDown="ClipMenu_MouseDown"
+                       Focusable="False"
+                       Placement="Absolute"
+                       Name="ClipMenu" 
+                       StaysOpen="False"
+                       IsOpen="{Binding ElementName=Clipboard_button , Path=IsChecked,Mode=TwoWay}"  
+                       
+                       Width="320"
+                       Height="400" 
+                       Grid.Column="3"
+                       AllowsTransparency="True" 
+                       VerticalOffset="15">
 
 
 
-        <!-- Translation-->
-        <TextBlock Grid.Column="2" Name="Translationoption" Text="{Binding MyText}"  VerticalAlignment="Center" HorizontalAlignment="Center"  Width="40" />
+                    <Border Width="320" Height="400" BorderThickness="0.5"  
+                            BorderBrush="White" CornerRadius="10"
+                            Background="#FF131D3E">
+                        <Grid Opacity="0.7">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Name="Header" Height="10*" />
+                                <RowDefinition Name="Heart" Height="90*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0"  Orientation="Horizontal">
+                                <TextBlock  Foreground="White" Width="55" Height="15"  Text="Clipboard" Margin="10,0,0,0"/>
+                                 
+                                
+                                <Image  Source="/ViewModel/Effects/Fonts/Icons/clipboard.png" Width="20" Height="20" Opacity="0.5" />
+                                
+                                <!--Clear All btn-->
+                                <Button Name="ClearAll" Width="40"  Height="20" Style="{StaticResource ClickBtn}" Margin="190,0,0,0" Click="ClearAll_click">
+                                <Border BorderBrush="White"
+                                    Opacity="1" BorderThickness="0.5" 
+                                    Style="{StaticResource BorderHover}" 
+                                    Width="40" Height="20" 
+                                    CornerRadius="10"
+                                    Background="#FF222222">
+                                    <TextBlock Width="35" Foreground="White" Height="10" Text="Clear All" Margin="1,0,0,2" FontSize="9" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                                </Border>
+                                </Button>
+                                
+                            </StackPanel>
+                            <TextBlock Grid.Row="1"
+                                       Width="500" Height="40"
+                                       Text="COPY SOMETHING" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Top" Opacity="0.5" TextAlignment="Center" FontFamily="Cooper Black" FontSize="30" Foreground="#FFA0A0A0" />
+                            
+                            
+                            <StackPanel Grid.Row="1" Height="300"  Orientation="Vertical"  >
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                                <Line  Style="{StaticResource LinesStyle}" Margin="0,30,0,0" />
+                            </StackPanel>
+                            <ListView Grid.Row="1"   
+                                      Width="300" Height="390" 
+                                      Style="{StaticResource ListViewStyle}" 
+                                      Name="UserCopiesList"
+                                      SelectionMode="Single"
+                                      Focusable="False"
+                                      ItemsSource="{Binding Entries}"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                      BorderThickness="0" Background="Transparent">
 
-    </Grid>
+
+                            </ListView>
+
+                        </Grid>
+                    </Border>
+
+                </Popup>
+
+
+            </Grid>
+
+        </Border>
+    </Border>
 
 </Window>
+
+

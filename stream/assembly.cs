@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 
 class Assembly
@@ -27,8 +24,6 @@ class Assembly
 
         var NgramList = _nGramModel.NgramAnswer(string.Join(" ", TokenizeLine.TakeWhile(F => F != CurrentWord)), 3 , 10);
 
-        // do compeletion first
-
         if ((BasicLine != null && CurrentWord !=null) && (CurrentWord == "" || CurrentWord == " "))
         {
 
@@ -37,7 +32,7 @@ class Assembly
 
         }
 
-        // do prefix second
+
         else if (BasicLine != null && (CurrentWord != "" || CurrentWord != " "))
         {
 
@@ -61,13 +56,13 @@ class Assembly
         
 
         PreFix.PreFixTrie _prefixtrie = new();
-        //var haveprefix = _prefixtrie.Search(CurrentWord);
 
-        var Candidate =  _prefixtrie.GetCandidate(CurrentWord);
 
-        if(Candidate.Count != 0 ) return _scale.answersblock(2, Candidate);        
+        var Candidate = _prefixtrie.GetCandidate(CurrentWord);
 
-        else return Correction(NgramList, CurrentWord);
+        if (Candidate.Count != 0) return _scale.answersblock(2, Candidate);
+        else 
+        return Correction(NgramList, CurrentWord);
 
 
 
@@ -75,7 +70,7 @@ class Assembly
 
     public Scale.Answersblock Correction(List<(string, float)> NgramList, string CurrentWord)
     {
-        Console.WriteLine("correction");
+
         LevenshteinProbabiltities spellingChecker = new();
         var Leve = spellingChecker.Correct(CurrentWord);
 

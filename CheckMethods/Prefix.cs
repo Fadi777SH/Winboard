@@ -83,7 +83,8 @@ class PreFix
         public bool Search(string s)
         {
             var prefix = Prefix(s);
-            return prefix.Depth == s.Length || prefix.FindChildNode('$') != null;
+
+            return prefix.Depth == s.Length;
         }
 
         private void InsertRange(List<string> items)
@@ -129,9 +130,7 @@ class PreFix
             //check if word exists
             if (!Search(word))
             {
-
-                l.Clear();
-
+                //l.Clear();
                 return;
             }
 
@@ -180,8 +179,6 @@ class PreFix
         public List<string> GetCandidate(string word)
         {
             word = word.ToLower();
-            var t = Stopwatch.StartNew();
-            t.Start();
 
             List<string> items = trie.GetPreFixList(word);
             if (items == null || items.Count == 0) return new();

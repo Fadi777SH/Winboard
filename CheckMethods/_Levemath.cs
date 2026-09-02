@@ -163,8 +163,17 @@ using System.Linq;
     private long GetFrq(string word)
     {
 
-        return database.GetWordFrq(word);
-        
+        Dictionary<string, int> dicword = GetData.WordID;
+        Dictionary<int, (string, long)> dic = GetData.diction;
+        if (dicword.TryGetValue(word, out int ID))
+        {
+            if (dic.TryGetValue(ID, out (string, long) val))
+            {
+                return val.Item2;
+            }
+        }
+        return 0;
+
     }
 
 }
