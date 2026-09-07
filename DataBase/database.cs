@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
+using System.Text.Json;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 
@@ -11,7 +15,7 @@ using System.Xml;
 class GetData
 {
     //WinBoard\Assets\SingleunitData.db
-    
+
     private const string WIDtable = "WinTable";
 
     public static readonly string GetPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "SingleunitData.db");
@@ -20,26 +24,42 @@ class GetData
     public static readonly string GetPinTablePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "ClipPinLists.db");
 
     private const string PinListstable = "PinListsTable";
+    private const string PinListsPicturetable = "PicPinList";
     private static readonly string SQLPinTablepath = $@"Data Source={GetPinTablePath}";
     private const string TrieTable = "WinTableTrie";
 
 
-    static private readonly Lazy<List<string>> _PinList = new(() => GetPinListsItems(PinListstable,SQLPinTablepath));
+    static private readonly Lazy<List<string>> _PinList = new(() => GetPinListsItems(PinListstable, SQLPinTablepath));
 
     static public List<string> PinLists => _PinList.Value;
+
+    static private readonly Lazy<List<BitmapSource>> _PinListPicture = new(() => GetPicturesData(PinListsPicturetable, SQLPinTablepath));
+
+    static public List<BitmapSource> PicturesPinLists => _PinListPicture.Value;
     static private readonly Lazy<Dictionary<int, (string, long)>> _dic = new(() => GetWordUnit(WIDtable, SQLpath));
     static public Dictionary<int, (string, long)> diction => _dic.Value;
 
-    static private readonly Lazy<Trie> _tr = new(() => GetTrieData(TrieTable, SQLpath));
-    static public Trie trie => _tr.Value;
+    static public readonly Lazy<Trie> _tr = new(() => GetTrieData(TrieTable, SQLpath));
+    static public Trie tri => _tr.Value;
 
 
     static private readonly Lazy<Dictionary<string, int>> dicwordid = new(() => getwordid(diction));
-    static  public Dictionary<string, int> WordID => dicwordid.Value;
+    static public Dictionary<string, int> WordID = dicwordid.Value;
+
+    static public Trie trie
+    { 
+        get { return _tr.Value; } 
 
 
-     static  private  Dictionary<int , (string , long)> GetWordUnit(string NameOfTable , string path)
+        set { }
+    }
+
+
+    static  private  Dictionary<int , (string , long)> GetWordUnit(string NameOfTable , string path)
     {
+
+        
+
         // NameOfTheTable = WinTable
         var WordUnitData = new Dictionary<int, (string, long)>();
 
@@ -109,7 +129,7 @@ class GetData
                 var trie = System.Text.Json.JsonSerializer.Deserialize<Trie>(gzip);
                 NullifyEmptyChildren(trie);
 
-                System.Diagnostics.Debug.WriteLine("Main Trie is Built");
+                
                 return trie;
             }
             reader.Close();
@@ -175,6 +195,101 @@ class GetData
         {
             Console.WriteLine(ex.Message);
         }
+    }
+    private static byte[]  GetImageBytes(BitmapSource bmp)
+    {
+        var encoder = new PngBitmapEncoder();
+        encoder.Frames.Add(BitmapFrame.Create(bmp));
+        using var ms = new MemoryStream();
+        encoder.Save(ms);
+        return ms.ToArray();
+    }
+    public static void UpdatePinPictures(List<BitmapSource> Picture)
+    {
+
+        // Table name : PicPinList
+        // prametares = Picture (it is blob)
+
+        try
+        {
+
+
+
+            using (var connection = new SqliteConnection(SQLPinTablepath))
+            {
+                connection.Open();
+
+                var Table = $@"CREATE TABLE IF NOT EXISTS {PinListsPicturetable}(Picture BLOB NOT NULL)";
+
+
+                using (var command = new SqliteCommand(Table, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+                var DeleteItemTableConnectionPictures = $@"DELETE FROM {PinListsPicturetable}";
+
+                using (var command = new SqliteCommand(DeleteItemTableConnectionPictures, connection))
+                {
+
+                    command.ExecuteNonQuery();
+                }
+
+
+                var TableConnection = $"INSERT OR IGNORE INTO {PinListsPicturetable}(Picture) VALUES (@Picture) ";
+
+
+
+                    using (var command = new SqliteCommand(TableConnection, connection))
+                    {
+                        foreach (var pic in Picture)
+                        {
+                        //var Jsonstring = System.Text.Json.JsonSerializer.Serialize(pic);
+                        byte[] jsonbyte = GetImageBytes(pic);
+                        command.Parameters.AddWithValue("@Picture", jsonbyte);
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                        }
+                    }
+                
+            }
+        }
+        
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    static public List<BitmapSource> GetPicturesData(string NameOfTable, string path)
+    {
+        // Table name : PicPinList
+
+        List<BitmapSource> images = new();
+      
+        try
+        {
+            using var connection = new SqliteConnection(path);
+            connection.Open();
+            using var cmd = new SqliteCommand($"SELECT Picture FROM {PinListsPicturetable}", connection);
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                using var blobStream = reader.GetStream(0);
+                var decoder = new PngBitmapDecoder(blobStream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                BitmapSource image = decoder.Frames[0];
+
+                images.Add(image);
+            }
+            reader.Close();
+            
+
+        }
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return images;
     }
 
     public static void UpdatePinItemData(List<string> Phrases)
@@ -253,6 +368,8 @@ class GetData
         }
         return PinLists;
     }
+
+
 
 }
 

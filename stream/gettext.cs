@@ -8,7 +8,7 @@ using Winboard.ViewModel;
 
 namespace Winboard
 {
-    public class Gettext
+    public  class Gettext
     {
 
 
@@ -21,7 +21,7 @@ namespace Winboard
         static AutomationFocusChangedEventHandler focusHandler = null;
         static AutomationPropertyChangedEventHandler propChangeHandler;
 
-        static public  void intextfield()
+        public static void intextfield()
         {
             UnsubscribePropertyChange();
 
@@ -49,7 +49,7 @@ namespace Winboard
 
         }
 
-        static private void OnPropertyChange(object src, AutomationPropertyChangedEventArgs  arg)
+        static public void OnPropertyChange(object src, AutomationPropertyChangedEventArgs  arg)
         {
 
             
@@ -74,9 +74,9 @@ namespace Winboard
 
                 var Trans = translation.TranslateAsync(Prime, "en", "ar");
 
-                Program.uI.Dispatcher.Invoke(() => Program.uI.PrimaryReactangle.Text = Prime);
-                Program.uI.Dispatcher.Invoke(() => Program.uI.SecondaryReactangle.Text = sec);
-                Program.uI.Dispatcher.Invoke(async () => Program.uI.TranslationReactangle.Text = await Trans);
+                Program.WPFWindow.Dispatcher.Invoke(() => Program.WPFWindow.PrimaryReactangle.Text = Prime);
+                Program.WPFWindow.Dispatcher.Invoke(() => Program.WPFWindow.SecondaryReactangle.Text = sec);
+                Program.WPFWindow.Dispatcher.Invoke(async () => Program.WPFWindow.TranslationReactangle.Text = await Trans);
 
             }
             
@@ -97,9 +97,9 @@ namespace Winboard
 
 
 
-        private static void OnFocusChange(object src, AutomationFocusChangedEventArgs e)
+        private static  void OnFocusChange(object src, AutomationFocusChangedEventArgs e)
         {
-
+            if(AutomationElement.FocusedElement.Current.Name !=null)
             NewElement = AutomationElement.FocusedElement.Current.Name;
 
             if (NewElement != CurrentElement)
@@ -120,7 +120,7 @@ namespace Winboard
             focusHandler = new AutomationFocusChangedEventHandler(OnFocusChange);
             Automation.AddAutomationFocusChangedEventHandler(focusHandler);
         }
-        private static void UnSubscribeToFocusChange()
+        public static void UnSubscribeToFocusChange()
         {
             if (focusHandler == null) return;
             Automation.RemoveAutomationFocusChangedEventHandler(focusHandler);

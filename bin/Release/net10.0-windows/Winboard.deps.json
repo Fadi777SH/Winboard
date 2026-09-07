@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v10.0": {
       "Winboard/1.0.0": {
         "dependencies": {
+          "Dapplo.Windows.Clipboard": "2.0.89",
+          "InputSimulator": "1.0.4",
           "Microsoft.Data.Sqlite": "10.0.10",
           "Newtonsoft.Json": "13.0.4",
           "Parquet.Net": "6.0.3",
@@ -23,6 +25,68 @@
           "lib/net8.0/CommunityToolkit.HighPerformance.dll": {
             "assemblyVersion": "8.4.0.0",
             "fileVersion": "8.4.2.1"
+          }
+        }
+      },
+      "Dapplo.Log/3.0.22": {
+        "runtime": {
+          "lib/net10.0/Dapplo.Log.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.22.46530"
+          }
+        }
+      },
+      "Dapplo.Windows.Clipboard/2.0.89": {
+        "dependencies": {
+          "Dapplo.Log": "3.0.22",
+          "Dapplo.Windows.Kernel32": "2.0.89",
+          "Dapplo.Windows.Messages": "2.0.89",
+          "System.Reactive": "6.1.0"
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Clipboard.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.89.62010"
+          }
+        }
+      },
+      "Dapplo.Windows.Common/2.0.89": {
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Common.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.89.62010"
+          }
+        }
+      },
+      "Dapplo.Windows.Kernel32/2.0.89": {
+        "dependencies": {
+          "Dapplo.Windows.Common": "2.0.89"
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Kernel32.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.89.62010"
+          }
+        }
+      },
+      "Dapplo.Windows.Messages/2.0.89": {
+        "dependencies": {
+          "Dapplo.Log": "3.0.22",
+          "Dapplo.Windows.Common": "2.0.89",
+          "System.Reactive": "6.1.0"
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Messages.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.89.62010"
+          }
+        }
+      },
+      "InputSimulator/1.0.4": {
+        "runtime": {
+          "lib/net20/WindowsInput.dll": {
+            "assemblyVersion": "1.0.4.0",
+            "fileVersion": "1.0.4.0"
           }
         }
       },
@@ -346,6 +410,14 @@
           }
         }
       },
+      "System.Reactive/6.1.0": {
+        "runtime": {
+          "lib/net6.0/System.Reactive.dll": {
+            "assemblyVersion": "6.1.0.0",
+            "fileVersion": "6.1.0.62682"
+          }
+        }
+      },
       "Universal.Phonetic.Metaphone/1.0.0": {
         "runtime": {
           "lib/netstandard2.0/Universal.Phonetic.Metaphone.dll": {
@@ -376,6 +448,48 @@
       "sha512": "sha512-2hmtrrU18x6NL3mbuAqwy0KpnoEEJOuK6sH5RKQfD/jHijn2pqvqBUC7WGy9dgNBL9BDA7eOC0kirsNPMp2f4Q==",
       "path": "communitytoolkit.highperformance/8.4.2",
       "hashPath": "communitytoolkit.highperformance.8.4.2.nupkg.sha512"
+    },
+    "Dapplo.Log/3.0.22": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/MDVh/jtWyOTa6d2wQgUOoGREfvkUFw+V+G4QNcMbw9VyA+DLhWiHpp+d3/vhHOtIYdoZVnHE/sSuJ3jrVrSng==",
+      "path": "dapplo.log/3.0.22",
+      "hashPath": "dapplo.log.3.0.22.nupkg.sha512"
+    },
+    "Dapplo.Windows.Clipboard/2.0.89": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-o1CCcp9jplDOZGyf/MOXV2XU82DfzTWzLA/C6H5fX5aQ1pwYGGes4bh1v+lKBG98bF+ukVEKE1JPIUVzOjhPuA==",
+      "path": "dapplo.windows.clipboard/2.0.89",
+      "hashPath": "dapplo.windows.clipboard.2.0.89.nupkg.sha512"
+    },
+    "Dapplo.Windows.Common/2.0.89": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-esa6TeHEYQDRRg0IIrqBq9tvfAJ34W/n/N2fCHarPgwUnBmwlXab0pAcQTQTaZS6O42fYAxPQywSdMnt5OxbXg==",
+      "path": "dapplo.windows.common/2.0.89",
+      "hashPath": "dapplo.windows.common.2.0.89.nupkg.sha512"
+    },
+    "Dapplo.Windows.Kernel32/2.0.89": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1DsdDEshBL6TjR/8wmaios7ojYS0cY6eAPCa7jjK9IJjNAwDEJS2HtCVRf+XPGH8CbKOfhrfkR7NFaAjMHu2Xg==",
+      "path": "dapplo.windows.kernel32/2.0.89",
+      "hashPath": "dapplo.windows.kernel32.2.0.89.nupkg.sha512"
+    },
+    "Dapplo.Windows.Messages/2.0.89": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lDlpXD9TkNbarIZhjk2yTNBYHR8nH9e7kNYvdhlogAq0TNvaUX3vF9Y2ivcfcPhHLyu9/zPoouDhi/DVIENDcA==",
+      "path": "dapplo.windows.messages/2.0.89",
+      "hashPath": "dapplo.windows.messages.2.0.89.nupkg.sha512"
+    },
+    "InputSimulator/1.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-D0LvRCPQMX6/FJHBjng+RO+wRDuHTJrfo7IAc7rmkPvRqchdVGJWg3y70peOtDy3OLNK+HSOwVkH4GiuLnkKgA==",
+      "path": "inputsimulator/1.0.4",
+      "hashPath": "inputsimulator.1.0.4.nupkg.sha512"
     },
     "K4os.Compression.LZ4/1.3.8": {
       "type": "package",
@@ -453,6 +567,13 @@
       "sha512": "sha512-Y/0ZkR+r0Cg3DQFuCl1RBnv/tmxpIZRU3HUvelPw6MVaKHwYYR8YNvgs0vuNuXCMvlyJ+Fh88U1D4tah1tt6qw==",
       "path": "sqlitepclraw.provider.e_sqlite3/2.1.11",
       "hashPath": "sqlitepclraw.provider.e_sqlite3.2.1.11.nupkg.sha512"
+    },
+    "System.Reactive/6.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-M5cCC1ZMkZr9jbSQGTHnVkb5TDN67qWCV7AP8TAHdGkvDlu0puT5NzemESNn9+HkYIDpWpocP68/i+/ame2/2w==",
+      "path": "system.reactive/6.1.0",
+      "hashPath": "system.reactive.6.1.0.nupkg.sha512"
     },
     "Universal.Phonetic.Metaphone/1.0.0": {
       "type": "package",

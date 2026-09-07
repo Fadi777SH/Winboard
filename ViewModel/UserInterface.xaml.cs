@@ -3,30 +3,45 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Linq;
-using System.Reflection.Metadata;
+using System.Security.Cryptography.Xml;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Forms.VisualStyles;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Winboard.stream;
+using Winboard.ViewModel.triggers;
 using WinboardDesgin;
+using WindowsInput;
 using formS = System.Windows.Forms;
 using WPF = System.Windows.Input;
-
 namespace Winboard.ViewModel
 {
     public partial class UI : Window
     {
-        
+
+        private const int WM_HOTKEY = 0x0312;
+
+        InputSimulator sime = new();
+        private bool _IsWpfWindowHidden = false;
+       
         ClipboardMonitor clipboardmonitor;
 
         formS.Cursor cursor;
 
         HoloParticles holoParticles = new(450, 30);
+        
+        private GlobalHotKey W_Alt_hotkey;
 
         List<string> PinList = GetData.PinLists;
+        List<BitmapSource> pictures = GetData.PicturesPinLists;
 
         public UI()
         {
@@ -40,26 +55,73 @@ namespace Winboard.ViewModel
             this.PrimaryReactangle.Text = "hello";
             this.SecondaryReactangle.Text = "Type";
             this.TranslationReactangle.Text = "مرحبا";
-
-
+            
+            this.Focusable = false;
             SourceInitialized += (s, e) => new Blureffect().EnableBlur(this);
 
+            SourceInitialized += MainWindow_SourceInitialized;
 
             SourceInitialized += (s, e) => Wincorner.ChangeCornerStyle(this, Wincorner.CornerStyle.Round);
 
 
-            UserCopiesList.Items.SortDescriptions.Add(new SortDescription("Copies", ListSortDirection.Descending));
+            //UserCopiesList.Items.SortDescriptions.Add(new SortDescription("Copies", ListSortDirection.Descending));
 
-            AddPreviousPinItem(PinList);
+            AddPreviousPinItem(PinList , pictures);
 
-            ClipMenu.MouseMove += new WPF.MouseEventHandler(ClipMenu_MouseMove);
-
+            ClipboardPopup.MouseMove += new WPF.MouseEventHandler(ClipMenu_MouseMove);
+           
             holoParticles.AddParticles(this);
         }
 
+        private void MainWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            var source = (HwndSource)PresentationSource.FromVisual(this);
+            source.AddHook(WndProc);
+
+
+            var handle = new WindowInteropHelper(this).Handle;
+
+            W_Alt_hotkey = new GlobalHotKey(Keys.W, Keys.Alt, handle, GetHashCode());
+            W_Alt_hotkey.register();
+
+        }
+
+       
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            // is this a HotKey ?
+
+            var MSG =(WindowMessage)msg;
+            
+            HideAndShowWindow(MSG);
+            
+            return IntPtr.Zero;
+        }
+
+        private void HideAndShowWindow(WindowMessage MSG)
+        {
+
+            if (MSG == WindowMessage.WM_HotKey && _IsWpfWindowHidden == false)
+            {
+
+                this.Hide();
+                
+                ClipboardPopup.IsOpen = false;
+                _IsWpfWindowHidden = true;
+            }
+
+            else if (MSG == WindowMessage.WM_HotKey && _IsWpfWindowHidden == true)
+            {
+               
+                this.Show();
+                _IsWpfWindowHidden = false;
+            }
+        }
 
         private void holdUI(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if(ClipboardPopup.IsMouseOver == false)
             DragMove();
 
             ShiftWindowOntoScreenHelper.ShiftWindowOntoScreen(this);
@@ -81,9 +143,13 @@ namespace Winboard.ViewModel
             get { return entries; }
             set { entries = value; }
         }
-        
+
+        private bool _SkipScondCopy = false;
         private void ClipboardMOnitor_ClipboardChange(object sender, EventArgs e)
         {
+
+
+            
             if (System.Windows.Clipboard.ContainsText())
             {
                 
@@ -91,11 +157,24 @@ namespace Winboard.ViewModel
 
                 //prevent adding the same copy to the list
 
-               if (    (Entries.Any(f=>f.UserCopy == usercopy))  == false )
-                Entries.Insert( 0 ,new ItemViewModel { UserCopy = usercopy , IsChecked = false});
+               if (  !Entries.Any(f=>f.UserCopy == usercopy) )
+                Entries.Insert( 0 ,new ItemViewModel { UserCopy = usercopy , IsChecked = false ,Datatype  = typeof(string)});
 
             }
-            
+            else if (System.Windows.Clipboard.ContainsImage())
+            {
+                BitmapSource userimage = System.Windows.Clipboard.GetImage();
+
+                if (_SkipScondCopy)
+                {
+                    Entries.Insert(0, new ItemViewModel { IsChecked = false, UserImage = userimage, Datatype = typeof(BitmapSource) });
+                }
+                
+                _SkipScondCopy = !_SkipScondCopy;
+
+            }
+
+
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -127,46 +206,14 @@ namespace Winboard.ViewModel
 
         private void ClipMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
-
             if (MouseButtonState.Pressed == e.LeftButton)
             {
                 _MouseInitialPos = GetMousePos();
             }
         }
 
-        private void ClipMenu_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            
-            if (e.LeftButton == MouseButtonState.Pressed && OnBoardList == false)
-            {
 
-                var _finalpos = GetMousePos();
-                var Dx = _finalpos.X - _MouseInitialPos.X;
-                var Dy = _finalpos.Y - _MouseInitialPos.Y;
-
-                ClipMenu.HorizontalOffset += Dx;
-                ClipMenu.VerticalOffset += Dy;
-
-                _MouseInitialPos = _finalpos;
-
-            }
-
-        }
         private bool OnBoardList = false;
-        private void Clipboard_box_MouseMove(object sender, WPF.MouseEventArgs e)
-        {
-
-            var point = GetMousePos();
-            ClipMenu.HorizontalOffset = point.X;
-            ClipMenu.VerticalOffset = point.Y;
-
-            if (e.LeftButton == MouseButtonState.Pressed && Clipboard_button.IsChecked == false)
-            {
-                Clipboard_button.IsChecked = true;
-            }
-        }
-
         private void ListBoard_MouseMove(object sender, WPF.MouseEventArgs e)
         {
 
@@ -181,35 +228,49 @@ namespace Winboard.ViewModel
             else OnBoardList = false;
         }
 
+        private void ClipMenu_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
 
+            if (e.LeftButton == MouseButtonState.Pressed && OnBoardList == false)
+            {
+                
+                var _finalpos = GetMousePos();
+                var Dx = _finalpos.X - _MouseInitialPos.X;
+                var Dy = _finalpos.Y - _MouseInitialPos.Y;
+
+                ClipboardPopup.HorizontalOffset += Dx;
+                ClipboardPopup.VerticalOffset += Dy;
+
+                _MouseInitialPos = _finalpos;
+
+            }
+
+        }
 
         private void TrashIcon_click(object sender, RoutedEventArgs e)
         {
             
             var ItemIdx = this.UserCopiesList.SelectedIndex;
 
-            Debug.WriteLine(ItemIdx);
-
             Entries.RemoveAt(ItemIdx);
         }
-        private List<string> _PinsItemString = new();
 
-        private void AddPreviousPinItem(List<string> Items)
+        private void AddPreviousPinItem(List<string> Items , List<BitmapSource> images)
         {
             foreach(var i in Items)
             {
-                Entries.Add(new ItemViewModel { UserCopy = i , IsChecked = true });
+                Entries.Add(new ItemViewModel { UserCopy = i , IsChecked = true , Datatype=typeof(string)});
             }
-            
-            
+            foreach (var i in images)
+            {
+                Entries.Add(new ItemViewModel { UserImage = i, IsChecked = true , Datatype = typeof(BitmapSource)});
+            }
+
         }
         private void PinIcon_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as ToggleButton;
             var ItemString = this.UserCopiesList.SelectedItem as ItemViewModel;
 
-            //var ItemIdx = this.UserCopiesList.SelectedIndex;
-            Debug.WriteLine(this.UserCopiesList.SelectedItem.GetType());
 
             if (ItemString.IsChecked == true)
             {
@@ -239,6 +300,9 @@ namespace Winboard.ViewModel
         {
             public string UserCopy { get; set; }
 
+            public Type Datatype { get; set; }
+
+            public BitmapSource UserImage { get; set; }
             private bool? _isChecked;
             public bool? IsChecked
             {
@@ -249,7 +313,6 @@ namespace Winboard.ViewModel
                     OnPropertyChanged(nameof(IsChecked));
                 }
             }
-
             public event PropertyChangedEventHandler PropertyChanged;
             private void OnPropertyChanged(string propertyName) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -290,11 +353,81 @@ namespace Winboard.ViewModel
         private void Window_Closed(object sender, EventArgs e)
         {
             var L = new List<string>();
+            var L2 = new List<BitmapSource>();
             foreach(var item in Entries)
             {
-                if (item.IsChecked == true) L.Add(item.UserCopy);
+                if (item.IsChecked == true)
+                {
+                    if (item.Datatype == typeof(string)) L.Add((item.UserCopy));
+                    if (item.Datatype == typeof(BitmapSource)) L2.Add(item.UserImage);
+                }
             }
             GetData.UpdatePinItemData(L);
+            GetData.UpdatePinPictures(L2);
+
+            //unregiser the app hot-key
+            W_Alt_hotkey?.Unregister();
         }
+
+        private void ListBoard_MouseDown(object sender, MouseButtonEventArgs e)
+
+        {
+
+
+
+            var item = UserCopiesList.SelectedItem;
+
+
+
+            var obj = item as ItemViewModel;
+
+            if (obj.Datatype == typeof(string))
+            {
+                var text = obj.UserCopy;
+                System.Windows.Clipboard.SetText(text);
+
+
+
+                sime.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.CONTROL, WindowsInput.Native.VirtualKeyCode.VK_V);
+
+                Thread.Sleep(15);
+
+
+                System.Windows.Clipboard.Clear();
+            }
+
+            else if(obj.Datatype == typeof(BitmapSource))
+            {
+                var Image = obj.UserImage;
+                System.Windows.Clipboard.SetImage(Image);
+
+
+
+                sime.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.CONTROL, WindowsInput.Native.VirtualKeyCode.VK_V);
+
+                Thread.Sleep(15);
+
+
+                System.Windows.Clipboard.Clear();
+            }
+
+        }
+        private void Clipboard_button_MouseMove(object sender, WPF.MouseEventArgs e)
+        {
+            var point = GetMousePos();
+
+            if (ClipboardPopup.IsOpen == false)
+            {
+                ClipboardPopup.HorizontalOffset = point.X;
+                ClipboardPopup.VerticalOffset = point.Y;
+            }
+
+
+
+        }
+
+
     }
+
+
 }

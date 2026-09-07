@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
 
@@ -12,19 +13,23 @@ public class BasicsInput
     {
 
         (string, string) HollowString = (" ", " ");
+
+        
+
         if (!element.Current.HasKeyboardFocus)
         {
             return HollowString;
         }
 
-        if (!element.TryGetCurrentPattern(TextPattern.Pattern, out object pattern) || element.GetCurrentPattern == null || element.Current.ClassName == "TermControl")
+        if (!element.TryGetCurrentPattern(TextPattern.Pattern, out object pattern) || element.GetCurrentPattern == null)
         {
             return HollowString;
 
         }
-
+        
         TextPattern textPattern = (TextPattern)pattern;
         TextPatternRange[] TheWholeLine = textPattern.GetSelection();
+        
         if (TheWholeLine.Length == 0 || TheWholeLine == null)
         {
             return HollowString;

@@ -203,20 +203,6 @@ class PreFix
             return TrainEntry(l);
         }
 
-        private bool CheckWordIfTrue(string word)
-        {
-            Dictionary<string, int> dicword = GetData.WordID;
-            Dictionary<int, (string, long)> dic = GetData.diction;
-            if (dicword.TryGetValue(word, out int ID))
-            {
-                if (dic.TryGetValue(ID, out (string, long) val))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private long GetFrq(string word)
         {
 

@@ -7,18 +7,6 @@ using System.Linq;
 
     const string AtoZ = "abcdefghijklmnopqrstuvwxyz";
     public WordRepository database = new();
-    public class Score
-    {
-        public List<(string word, float wordscore)> WordsList { get; set; }
-
-        public float score { get; set; }
-
-        public Score(float initail = 0f)
-        {
-            WordsList = new();
-        }
-    }
-
     class StringPair
     {
         public string a { get; set; } = string.Empty;
@@ -63,9 +51,9 @@ using System.Linq;
         }
 
         List<string> WordsList = deletes.Concat(transposes).Concat(replaces).Concat(inserts).ToList();
-        WordsList.RemoveAll(f => !CheckWordIfTrue(f));
         
-        return WordsList ;
+        
+        return FilterUnExistWords(WordsList) ;
     }
     List<string> KnownEdits2(string word)
     {
@@ -73,15 +61,6 @@ using System.Linq;
         var l = new List<string >();
         var edit1 = Edits1(word);
         foreach (var e1 in edit1)
-            foreach (var e2 in Edits1(e1))
-                    l.Add(e2);
-        return l;
-        
-    }
-    List<string> knownEdits3(string word)
-    {
-        var l = new List<string>();
-        foreach (var e1 in this.KnownEdits2(word))
             foreach (var e2 in Edits1(e1))
                     l.Add(e2);
         return l;
@@ -151,6 +130,7 @@ using System.Linq;
     {
         Dictionary<string, int> dicword = GetData.WordID;
         Dictionary<int, (string, long)> dic = GetData.diction;
+
         if (dicword.TryGetValue(word, out int ID))
         {
             if (dic.TryGetValue(ID, out (string, long) val))
@@ -158,7 +138,14 @@ using System.Linq;
                 return true;
             }
         }
+        
         return false;
+    }
+    private List<string> FilterUnExistWords(List<string> words)
+    {
+        Dictionary<string, int> dicword = GetData.WordID;
+        
+        return words.Where(f => dicword.TryGetValue(f, out int id) == true).ToList();
     }
     private long GetFrq(string word)
     {

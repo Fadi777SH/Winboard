@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Winboard.ViewModel"
         mc:Ignorable="d" WindowStyle="none" MouseLeftButtonDown="holdUI"  ResizeMode="NoResize"
         Topmost="True"
-        Title="MainWindow"  Height="30" Width="450"  AllowsTransparency="True" Background="Transparent" Closed="Window_Closed" WindowStartupLocation="Manual">
+        Title="MainWindow" Focusable="False"    Height="30" Width="450"  AllowsTransparency="True" Background="Transparent" Closed="Window_Closed" WindowStartupLocation="Manual">
     <Window.Resources>
         <ControlTemplate x:Key="buttons" TargetType="ToggleButton">
             <Border x:Name="border" Background="{TemplateBinding Background}"
@@ -89,7 +89,9 @@
                 <Setter.Value>
                     <DataTemplate>
                         <Border Name="ListBoard" Grid.Row="1" CornerRadius="5"
-                                Width="290" Height="70" MouseMove="ListBoard_MouseMove" Style = "{DynamicResource BorderHoverInstance}" Background="#303131" BorderThickness="2">
+                                Width="290" Height="70" MouseMove="ListBoard_MouseMove" MouseDown="ListBoard_MouseDown" Focusable="False"
+                                Style = "{DynamicResource BorderHoverInstance}" 
+                                Background="#303131" BorderThickness="2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Name="C_Two" Width="90*"></ColumnDefinition>
@@ -105,7 +107,11 @@
                                         <Image Source="/ViewModel/Effects/Fonts/Icons/WhiteTrashIcon.png"/>
                                     </Border>
                                 </ToggleButton>
+                                
                                 <TextBlock Grid.Column="0" Name="TextHolder" FontSize="15" Foreground="White" Width="300" Height="75" Text="{Binding UserCopy}"/>
+                                <Image Width="290" Height="70" Stretch= "Uniform"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                    Source="{Binding UserImage}"/>
                             </Grid>
                         </Border>
 
@@ -275,7 +281,7 @@
 
 
 
-    <Border Name="MainBoard" BorderBrush="White"  BorderThickness="2"  CornerRadius="7" Background="Transparent">
+    <Border Name="MainBoard"  BorderBrush="White" Focusable="False" BorderThickness="2"  CornerRadius="7" Background="Transparent">
         <!--Main Winboard style-->
         <Border  Padding="1" CornerRadius="1" Background="#10FFFFFF" >
             <Grid Margin="0,-10,-5,-10">
@@ -290,9 +296,14 @@
                 <TextBlock Grid.Column="1"  FontFamily = "Century" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Name="PrimaryReactangle" Margin="10,10,10,10" Text="{Binding MyText}"/>
                 <TextBlock Grid.Column="0"  FontFamily = "Century" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Name="SecondaryReactangle" Margin="10,10,10,10" Text="{Binding MyText}" />
                 <TextBlock Grid.Column="3" FontFamily="Arabic Typesetting" Foreground="White"   FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Name="TranslationReactangle" Margin="10,10,10,10"  Text="{Binding MyText}"/>
+                <Border Name="Clipboard_box" Style="{StaticResource clipstyle}" Grid.Column="3"  Focusable="False"  CornerRadius="1"  Width="15" Height="15" Margin="100,0,0,0">
+                    <ToggleButton Name="Clipboard_button"  
+                                  Template="{StaticResource buttons}" 
+                                  
+                                  MouseMove="Clipboard_button_MouseMove"
 
-                <Border Name="Clipboard_box" Style="{StaticResource clipstyle}" Grid.Column="3"   CornerRadius="1"  Width="15" Height="15" Margin="100,0,0,0">
-                    <ToggleButton Name="Clipboard_button"   Template="{StaticResource buttons}"   MouseMove="Clipboard_box_MouseMove"   Background="Transparent" Width="15" Height="15" HorizontalAlignment="Center" BorderThickness="0"   VerticalAlignment="Center">
+                                  Background="Transparent" Width="15" Height="15" HorizontalAlignment="Center" BorderThickness="0" 
+                                  VerticalAlignment="Center">
                     </ToggleButton>
                 </Border>
 
@@ -307,20 +318,22 @@
                        MouseDown="ClipMenu_MouseDown"
                        Focusable="False"
                        Placement="Absolute"
-                       Name="ClipMenu" 
-                       StaysOpen="False"
-                       IsOpen="{Binding ElementName=Clipboard_button , Path=IsChecked,Mode=TwoWay}"  
+                       Name="ClipboardPopup" 
+                       
+                       StaysOpen="True"
+                       IsOpen="{Binding ElementName=Clipboard_button,Path=IsChecked,Mode=TwoWay}"  
                        
                        Width="320"
                        Height="400" 
                        Grid.Column="3"
                        AllowsTransparency="True" 
+                       
                        VerticalOffset="15">
 
 
 
-                    <Border Width="320" Height="400" BorderThickness="0.5"  
-                            BorderBrush="White" CornerRadius="10"
+                    <Border Width="320" Height="400"  BorderThickness="0.5"  
+                            BorderBrush="White" CornerRadius="10" Focusable="False"
                             Background="#FF131D3E">
                         <Grid Opacity="0.7">
                             <Grid.RowDefinitions>
@@ -331,7 +344,7 @@
                                 <TextBlock  Foreground="White" Width="55" Height="15"  Text="Clipboard" Margin="10,0,0,0"/>
                                  
                                 
-                                <Image  Source="/ViewModel/Effects/Fonts/Icons/clipboard.png" Width="20" Height="20" Opacity="0.5" />
+                                <Image   Source="/ViewModel/Effects/Fonts/Icons/clipboard.png" Width="20" Height="20" Opacity="0.5" />
                                 
                                 <!--Clear All btn-->
                                 <Button Name="ClearAll" Width="40"  Height="20" Style="{StaticResource ClickBtn}" Margin="190,0,0,0" Click="ClearAll_click">

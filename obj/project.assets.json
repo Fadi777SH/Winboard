@@ -15,6 +15,91 @@
           }
         }
       },
+      "Dapplo.Log/3.0.22": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Dapplo.Log.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Dapplo.Log.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Dapplo.Windows.Clipboard/2.0.89": {
+        "type": "package",
+        "dependencies": {
+          "Dapplo.Log": "3.0.22",
+          "Dapplo.Windows.Kernel32": "2.0.89",
+          "Dapplo.Windows.Messages": "2.0.89",
+          "System.ComponentModel.Annotations": "5.0.0",
+          "System.Reactive": "6.1.0",
+          "System.ValueTuple": "4.6.2"
+        },
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Clipboard.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Clipboard.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Dapplo.Windows.Common/2.0.89": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Common.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Common.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
+      "Dapplo.Windows.Kernel32/2.0.89": {
+        "type": "package",
+        "dependencies": {
+          "Dapplo.Windows.Common": "2.0.89"
+        },
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Kernel32.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Kernel32.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Dapplo.Windows.Messages/2.0.89": {
+        "type": "package",
+        "dependencies": {
+          "Dapplo.Log": "3.0.22",
+          "Dapplo.Windows.Common": "2.0.89",
+          "System.Reactive": "6.1.0",
+          "System.ValueTuple": "4.6.2"
+        },
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Messages.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Messages.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "InputSimulator/1.0.4": {
         "type": "package",
         "compile": {
@@ -354,6 +439,44 @@
           "lib/net6.0-windows7.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
         }
       },
+      "System.ComponentModel.Annotations/5.0.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.1/System.ComponentModel.Annotations.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/System.ComponentModel.Annotations.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.Reactive/6.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.Reactive.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Reactive.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.ValueTuple/4.6.2": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
+        }
+      },
       "Universal.Phonetic.Metaphone/1.0.0": {
         "type": "package",
         "compile": {
@@ -383,6 +506,91 @@
         },
         "runtime": {
           "lib/net8.0/CommunityToolkit.HighPerformance.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Dapplo.Log/3.0.22": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Dapplo.Log.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Dapplo.Log.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Dapplo.Windows.Clipboard/2.0.89": {
+        "type": "package",
+        "dependencies": {
+          "Dapplo.Log": "3.0.22",
+          "Dapplo.Windows.Kernel32": "2.0.89",
+          "Dapplo.Windows.Messages": "2.0.89",
+          "System.ComponentModel.Annotations": "5.0.0",
+          "System.Reactive": "6.1.0",
+          "System.ValueTuple": "4.6.2"
+        },
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Clipboard.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Clipboard.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Dapplo.Windows.Common/2.0.89": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Common.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Common.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
+      "Dapplo.Windows.Kernel32/2.0.89": {
+        "type": "package",
+        "dependencies": {
+          "Dapplo.Windows.Common": "2.0.89"
+        },
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Kernel32.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Kernel32.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Dapplo.Windows.Messages/2.0.89": {
+        "type": "package",
+        "dependencies": {
+          "Dapplo.Log": "3.0.22",
+          "Dapplo.Windows.Common": "2.0.89",
+          "System.Reactive": "6.1.0",
+          "System.ValueTuple": "4.6.2"
+        },
+        "compile": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Messages.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0-windows7.0/Dapplo.Windows.Messages.dll": {
             "related": ".xml"
           }
         }
@@ -551,6 +759,44 @@
           "lib/net6.0-windows7.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
         }
       },
+      "System.ComponentModel.Annotations/5.0.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.1/System.ComponentModel.Annotations.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/System.ComponentModel.Annotations.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.Reactive/6.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.Reactive.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Reactive.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.ValueTuple/4.6.2": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
+        }
+      },
       "Universal.Phonetic.Metaphone/1.0.0": {
         "type": "package",
         "compile": {
@@ -590,6 +836,110 @@
         "lib/netstandard2.0/CommunityToolkit.HighPerformance.xml",
         "lib/netstandard2.1/CommunityToolkit.HighPerformance.dll",
         "lib/netstandard2.1/CommunityToolkit.HighPerformance.xml"
+      ]
+    },
+    "Dapplo.Log/3.0.22": {
+      "sha512": "/MDVh/jtWyOTa6d2wQgUOoGREfvkUFw+V+G4QNcMbw9VyA+DLhWiHpp+d3/vhHOtIYdoZVnHE/sSuJ3jrVrSng==",
+      "type": "package",
+      "path": "dapplo.log/3.0.22",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dapplo.log.3.0.22.nupkg.sha512",
+        "dapplo.log.nuspec",
+        "icon.png",
+        "lib/net10.0/Dapplo.Log.dll",
+        "lib/net10.0/Dapplo.Log.pdb",
+        "lib/net10.0/Dapplo.Log.xml",
+        "lib/net481/Dapplo.Log.dll",
+        "lib/net481/Dapplo.Log.pdb",
+        "lib/net481/Dapplo.Log.xml",
+        "lib/net8.0/Dapplo.Log.dll",
+        "lib/net8.0/Dapplo.Log.pdb",
+        "lib/net8.0/Dapplo.Log.xml",
+        "lib/netstandard2.0/Dapplo.Log.dll",
+        "lib/netstandard2.0/Dapplo.Log.pdb",
+        "lib/netstandard2.0/Dapplo.Log.xml"
+      ]
+    },
+    "Dapplo.Windows.Clipboard/2.0.89": {
+      "sha512": "o1CCcp9jplDOZGyf/MOXV2XU82DfzTWzLA/C6H5fX5aQ1pwYGGes4bh1v+lKBG98bF+ukVEKE1JPIUVzOjhPuA==",
+      "type": "package",
+      "path": "dapplo.windows.clipboard/2.0.89",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dapplo.windows.clipboard.2.0.89.nupkg.sha512",
+        "dapplo.windows.clipboard.nuspec",
+        "icon.png",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Clipboard.dll",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Clipboard.xml",
+        "lib/net48/Dapplo.Windows.Clipboard.dll",
+        "lib/net48/Dapplo.Windows.Clipboard.xml",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Clipboard.dll",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Clipboard.xml",
+        "lib/netstandard2.0/Dapplo.Windows.Clipboard.dll",
+        "lib/netstandard2.0/Dapplo.Windows.Clipboard.xml"
+      ]
+    },
+    "Dapplo.Windows.Common/2.0.89": {
+      "sha512": "esa6TeHEYQDRRg0IIrqBq9tvfAJ34W/n/N2fCHarPgwUnBmwlXab0pAcQTQTaZS6O42fYAxPQywSdMnt5OxbXg==",
+      "type": "package",
+      "path": "dapplo.windows.common/2.0.89",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dapplo.windows.common.2.0.89.nupkg.sha512",
+        "dapplo.windows.common.nuspec",
+        "icon.png",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Common.dll",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Common.xml",
+        "lib/net48/Dapplo.Windows.Common.dll",
+        "lib/net48/Dapplo.Windows.Common.xml",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Common.dll",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Common.xml",
+        "lib/netstandard2.0/Dapplo.Windows.Common.dll",
+        "lib/netstandard2.0/Dapplo.Windows.Common.xml"
+      ]
+    },
+    "Dapplo.Windows.Kernel32/2.0.89": {
+      "sha512": "1DsdDEshBL6TjR/8wmaios7ojYS0cY6eAPCa7jjK9IJjNAwDEJS2HtCVRf+XPGH8CbKOfhrfkR7NFaAjMHu2Xg==",
+      "type": "package",
+      "path": "dapplo.windows.kernel32/2.0.89",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dapplo.windows.kernel32.2.0.89.nupkg.sha512",
+        "dapplo.windows.kernel32.nuspec",
+        "icon.png",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Kernel32.dll",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Kernel32.xml",
+        "lib/net48/Dapplo.Windows.Kernel32.dll",
+        "lib/net48/Dapplo.Windows.Kernel32.xml",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Kernel32.dll",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Kernel32.xml",
+        "lib/netstandard2.0/Dapplo.Windows.Kernel32.dll",
+        "lib/netstandard2.0/Dapplo.Windows.Kernel32.xml"
+      ]
+    },
+    "Dapplo.Windows.Messages/2.0.89": {
+      "sha512": "lDlpXD9TkNbarIZhjk2yTNBYHR8nH9e7kNYvdhlogAq0TNvaUX3vF9Y2ivcfcPhHLyu9/zPoouDhi/DVIENDcA==",
+      "type": "package",
+      "path": "dapplo.windows.messages/2.0.89",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dapplo.windows.messages.2.0.89.nupkg.sha512",
+        "dapplo.windows.messages.nuspec",
+        "icon.png",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Messages.dll",
+        "lib/net10.0-windows7.0/Dapplo.Windows.Messages.xml",
+        "lib/net48/Dapplo.Windows.Messages.dll",
+        "lib/net48/Dapplo.Windows.Messages.xml",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Messages.dll",
+        "lib/net8.0-windows7.0/Dapplo.Windows.Messages.xml",
+        "lib/netstandard2.0/Dapplo.Windows.Messages.dll",
+        "lib/netstandard2.0/Dapplo.Windows.Messages.xml"
       ]
     },
     "InputSimulator/1.0.4": {
@@ -855,6 +1205,149 @@
         "sqlitepclraw.provider.e_sqlite3.nuspec"
       ]
     },
+    "System.ComponentModel.Annotations/5.0.0": {
+      "sha512": "dMkqfy2el8A8/I76n2Hi1oBFEbG1SfxD2l5nhwXV3XjlnOmwxJlQbYpJH4W51odnU9sARCSAgv7S3CyAFMkpYg==",
+      "type": "package",
+      "path": "system.componentmodel.annotations/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/net461/System.ComponentModel.Annotations.dll",
+        "lib/netcore50/System.ComponentModel.Annotations.dll",
+        "lib/netstandard1.4/System.ComponentModel.Annotations.dll",
+        "lib/netstandard2.0/System.ComponentModel.Annotations.dll",
+        "lib/netstandard2.1/System.ComponentModel.Annotations.dll",
+        "lib/netstandard2.1/System.ComponentModel.Annotations.xml",
+        "lib/portable-net45+win8/_._",
+        "lib/win8/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/net461/System.ComponentModel.Annotations.dll",
+        "ref/net461/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/System.ComponentModel.Annotations.dll",
+        "ref/netcore50/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/de/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/es/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/fr/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/it/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/ja/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/ko/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/ru/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/zh-hans/System.ComponentModel.Annotations.xml",
+        "ref/netcore50/zh-hant/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/System.ComponentModel.Annotations.dll",
+        "ref/netstandard1.1/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/de/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/es/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/fr/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/it/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/ja/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/ko/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/ru/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/zh-hans/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.1/zh-hant/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/System.ComponentModel.Annotations.dll",
+        "ref/netstandard1.3/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/de/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/es/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/fr/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/it/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/ja/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/ko/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/ru/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/zh-hans/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.3/zh-hant/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/System.ComponentModel.Annotations.dll",
+        "ref/netstandard1.4/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/de/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/es/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/fr/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/it/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/ja/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/ko/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/ru/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/zh-hans/System.ComponentModel.Annotations.xml",
+        "ref/netstandard1.4/zh-hant/System.ComponentModel.Annotations.xml",
+        "ref/netstandard2.0/System.ComponentModel.Annotations.dll",
+        "ref/netstandard2.0/System.ComponentModel.Annotations.xml",
+        "ref/netstandard2.1/System.ComponentModel.Annotations.dll",
+        "ref/netstandard2.1/System.ComponentModel.Annotations.xml",
+        "ref/portable-net45+win8/_._",
+        "ref/win8/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.componentmodel.annotations.5.0.0.nupkg.sha512",
+        "system.componentmodel.annotations.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Reactive/6.1.0": {
+      "sha512": "M5cCC1ZMkZr9jbSQGTHnVkb5TDN67qWCV7AP8TAHdGkvDlu0puT5NzemESNn9+HkYIDpWpocP68/i+/ame2/2w==",
+      "type": "package",
+      "path": "system.reactive/6.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/net6.0-windows10.0.19041/_._",
+        "build/net6.0/_._",
+        "buildTransitive/net6.0-windows10.0.19041/_._",
+        "buildTransitive/net6.0/_._",
+        "icon.png",
+        "lib/net472/System.Reactive.dll",
+        "lib/net472/System.Reactive.xml",
+        "lib/net6.0-windows10.0.19041/System.Reactive.dll",
+        "lib/net6.0-windows10.0.19041/System.Reactive.xml",
+        "lib/net6.0/System.Reactive.dll",
+        "lib/net6.0/System.Reactive.xml",
+        "lib/netstandard2.0/System.Reactive.dll",
+        "lib/netstandard2.0/System.Reactive.xml",
+        "lib/uap10.0.18362/System.Reactive.dll",
+        "lib/uap10.0.18362/System.Reactive.xml",
+        "readme.md",
+        "system.reactive.6.1.0.nupkg.sha512",
+        "system.reactive.nuspec"
+      ]
+    },
+    "System.ValueTuple/4.6.2": {
+      "sha512": "yQgmjfFximrNm9LIV3mL6T5MzjeC+epeE5rl4hXxAlYmxby7RM1dPSkIKXk9HNkl6G54h2JHOmLD46+Pey+IRg==",
+      "type": "package",
+      "path": "system.valuetuple/4.6.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "build/net471/System.ValueTuple.targets",
+        "build/net471/ValueTupleFrameworkList.xml",
+        "buildTransitive/net461/System.ValueTuple.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net471/System.ValueTuple.targets",
+        "buildTransitive/net471/ValueTupleFrameworkList.xml",
+        "lib/net462/System.ValueTuple.dll",
+        "lib/net462/System.ValueTuple.xml",
+        "lib/net47/System.ValueTuple.dll",
+        "lib/net47/System.ValueTuple.xml",
+        "lib/net471/_._",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard2.0/_._",
+        "system.valuetuple.4.6.2.nupkg.sha512",
+        "system.valuetuple.nuspec"
+      ]
+    },
     "Universal.Phonetic.Metaphone/1.0.0": {
       "sha512": "MAlVnqSllZ9lS7jPEyAELnfAR27KJ6dDiNEnkdWEYK8tvrr2aGM2PIyNuC9MEFbnnwBtH893jUjYtWeX1xgwsw==",
       "type": "package",
@@ -890,6 +1383,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0-windows": [
+      "Dapplo.Windows.Clipboard >= 2.0.89",
       "InputSimulator >= 1.0.4",
       "Microsoft.Data.Sqlite >= 10.0.10",
       "Newtonsoft.Json >= 13.0.4",
@@ -945,6 +1439,10 @@
         "framework": "net10.0-windows7.0",
         "targetAlias": "net10.0-windows",
         "dependencies": {
+          "Dapplo.Windows.Clipboard": {
+            "target": "Package",
+            "version": "[2.0.89, )"
+          },
           "InputSimulator": {
             "target": "Package",
             "version": "[1.0.4, )"

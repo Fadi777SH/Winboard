@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Windows;
 using Winboard;
 
 class Program
 {
-    public static Winboard.ViewModel.UI uI;
+    public static Winboard.ViewModel.UI WPFWindow;
+    private const int WM_HOTKEY = 0x0312;
+    
 
     [STAThread]
     static void Main(string[] args)
     {
-        Application app = new();
-        Winboard.ViewModel.UI w = new();
-        uI = w;
+        System.Windows.Application app = new();
+
+        WPFWindow = new();
 
         Gettext.intextfield();
 
-        app.Run(w);
-
+        app.Run(WPFWindow);
        
+
     }
 }
 

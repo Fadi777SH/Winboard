@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 
@@ -79,20 +80,20 @@ public class Scale
     {
 
         //Currentstate = 2 -> PreFix Needed
-
+        DeleteRepetitions(PreFixList);
         Answersblock block = new();
         if (PreFixList.Count > 0)
         {
-            DeleteRepetitions(PreFixList);
+           
 
             block.Completion = (PreFixList.FirstOrDefault(), 7);
 
-            if (PreFixList.Count > 0)
+            if (PreFixList.Count > 1)
                 block.SecondaryCompletion = (PreFixList[1], 7);
 
-            block.Correction = PreFixList.Count >= 2 ? (PreFixList[2], 7) : ("", 0);
+            block.Correction = PreFixList.Count >= 3 ? (PreFixList[2], 7) : ("", 0);
 
-            block.SecondaryCorrection = PreFixList.Count >= 3 ? (PreFixList[3], 7) : ("", 0);
+            block.SecondaryCorrection = PreFixList.Count >= 4 ? (PreFixList[3], 7) : ("", 0);
         }
         return block;
     }
