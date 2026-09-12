@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Winboard.ViewModel"
         mc:Ignorable="d" WindowStyle="none" MouseLeftButtonDown="holdUI"  ResizeMode="NoResize"
         Topmost="True"
-        Title="MainWindow" Focusable="False"    Height="30" Width="450"  AllowsTransparency="True" Background="Transparent" Closed="Window_Closed" WindowStartupLocation="Manual">
+        Title="MainWindow" Focusable="False"   Height="30" Width="450"  AllowsTransparency="True" Background="Transparent" Closed="Window_Closed" WindowStartupLocation="Manual">
     <Window.Resources>
         <ControlTemplate x:Key="buttons" TargetType="ToggleButton">
             <Border x:Name="border" Background="{TemplateBinding Background}"
@@ -295,7 +295,7 @@
 
                 <TextBlock Grid.Column="1"  FontFamily = "Century" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Name="PrimaryReactangle" Margin="10,10,10,10" Text="{Binding MyText}"/>
                 <TextBlock Grid.Column="0"  FontFamily = "Century" FontSize="15"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Name="SecondaryReactangle" Margin="10,10,10,10" Text="{Binding MyText}" />
-                <TextBlock Grid.Column="3" FontFamily="Arabic Typesetting" Foreground="White"   FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Name="TranslationReactangle" Margin="10,10,10,10"  Text="{Binding MyText}"/>
+                <TextBlock Grid.Column="3" FontFamily="Century" Foreground="White"   FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Name="TriReactangle" Margin="10,10,10,10"  Text="{Binding MyText}"/>
                 <Border Name="Clipboard_box" Style="{StaticResource clipstyle}" Grid.Column="3"  Focusable="False"  CornerRadius="1"  Width="15" Height="15" Margin="100,0,0,0">
                     <ToggleButton Name="Clipboard_button"  
                                   Template="{StaticResource buttons}" 

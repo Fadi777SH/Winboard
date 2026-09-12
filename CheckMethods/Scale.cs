@@ -13,10 +13,12 @@ public class Scale
         public (string,float) Completion { get; set; }
 
         public (string, float) SecondaryCompletion { get; set; }
+        public (string, float) TriCompletion { get; set; }
 
         public (string, float) Correction { get; set; }
 
         public (string, float) SecondaryCorrection { get; set; }
+        public (string, float) TriCorrection { get; set; }
 
     }
     Answersblock CreateBlock = new();
@@ -33,13 +35,8 @@ public class Scale
 
             NgramProbabiltities.OrderByDescending(f => f.Item2);
             CreateBlock.Completion = NgramProbabiltities[0];
-
-            if (NgramProbabiltities.Count > 1)
-                CreateBlock.SecondaryCompletion = NgramProbabiltities[1];
-            else CreateBlock.SecondaryCompletion = ("", 0);
-
-            CreateBlock.Correction = ("", 0);
-            CreateBlock.SecondaryCorrection = ("", 0);
+            CreateBlock.SecondaryCompletion = NgramProbabiltities.Count >= 2 ? NgramProbabiltities[1] : ("", 0);
+            CreateBlock.TriCompletion = NgramProbabiltities.Count >= 3 ? NgramProbabiltities[2] : ("", 0);
 
             return CreateBlock;
 
@@ -56,19 +53,14 @@ public class Scale
             List<(string, float)> mostPb = MostProbable(LevenshteinProbabiltities, NgramProbabiltities, CurrentWord);
 
 
-            if (NgramProbabiltities.Count != 0) 
-            CreateBlock.Correction = NgramProbabiltities[0];
+           
+            CreateBlock.Correction =  NgramProbabiltities.Count >=1  ? NgramProbabiltities[0] : ("",0);
+            CreateBlock.SecondaryCorrection = NgramProbabiltities.Count >= 2 ? NgramProbabiltities[2] : ("", 0);
+            CreateBlock.TriCorrection = NgramProbabiltities.Count >= 3 ? NgramProbabiltities[3] : ("", 0);
 
             CreateBlock.Completion = mostPb[0];
-
-            if (NgramProbabiltities.Count > 1)
-                CreateBlock.SecondaryCorrection = NgramProbabiltities[1];
-            else
-                CreateBlock.SecondaryCompletion = ("", 0);
-
-            if (mostPb.Count > 1)
-                CreateBlock.SecondaryCompletion = mostPb[1];
-            else CreateBlock.SecondaryCompletion = ("", 0);
+            CreateBlock.SecondaryCompletion = mostPb.Count >= 2 ? mostPb[1] : ("", 0);
+            CreateBlock.TriCompletion = mostPb.Count >= 3 ? mostPb[2] : ("", 0);
 
             return CreateBlock;
             
@@ -88,12 +80,14 @@ public class Scale
 
             block.Completion = (PreFixList.FirstOrDefault(), 7);
 
-            if (PreFixList.Count > 1)
-                block.SecondaryCompletion = (PreFixList[1], 7);
+            
+            block.SecondaryCompletion = PreFixList.Count >=2 ? (PreFixList[1], 7) : ("",0);
+            block.TriCompletion = PreFixList.Count >= 3 ? (PreFixList[2], 7) : ("", 0);
 
-            block.Correction = PreFixList.Count >= 3 ? (PreFixList[2], 7) : ("", 0);
+            block.Correction = PreFixList.Count >= 4 ? (PreFixList[3], 7) : ("", 0);
 
-            block.SecondaryCorrection = PreFixList.Count >= 4 ? (PreFixList[3], 7) : ("", 0);
+            block.SecondaryCorrection = PreFixList.Count >= 5 ? (PreFixList[4], 7) : ("", 0);
+            block.TriCorrection = PreFixList.Count >= 6 ? (PreFixList[5], 7) : ("", 0);
         }
         return block;
     }

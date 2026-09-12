@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "9+NHl3Xo55Y=",
+  "dgSpecHash": "HHM+fQQjphc=",
   "success": true,
   "projectFilePath": "C:\\Users\\FadiSK\\source\\repos\\WinBoard\\WinBoard\\Winboard.csproj",
   "expectedPackageFiles": [
@@ -27,9 +27,9 @@
     "C:\\Users\\FadiSK\\.nuget\\packages\\system.valuetuple\\4.6.2\\system.valuetuple.4.6.2.nupkg.sha512",
     "C:\\Users\\FadiSK\\.nuget\\packages\\universal.phonetic.metaphone\\1.0.0\\universal.phonetic.metaphone.1.0.0.nupkg.sha512",
     "C:\\Users\\FadiSK\\.nuget\\packages\\zstdsharp.port\\0.8.8\\zstdsharp.port.0.8.8.nupkg.sha512",
-    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.11\\microsoft.aspnetcore.app.runtime.win-x64.10.0.11.nupkg.sha512",
-    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.11\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.11.nupkg.sha512",
-    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.11\\microsoft.netcore.app.runtime.win-x64.10.0.11.nupkg.sha512"
+    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.12\\microsoft.aspnetcore.app.runtime.win-x64.10.0.12.nupkg.sha512",
+    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.12\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.12.nupkg.sha512",
+    "C:\\Users\\FadiSK\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.12\\microsoft.netcore.app.runtime.win-x64.10.0.12.nupkg.sha512"
   ],
   "logs": [
     {

@@ -16,18 +16,16 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Winboard.stream;
 using Winboard.ViewModel.triggers;
 using WinboardDesgin;
 using WindowsInput;
 using formS = System.Windows.Forms;
 using WPF = System.Windows.Input;
 namespace Winboard.ViewModel
-{
+{ 
     public partial class UI : Window
     {
 
-        private const int WM_HOTKEY = 0x0312;
 
         InputSimulator sime = new();
         private bool _IsWpfWindowHidden = false;
@@ -47,6 +45,7 @@ namespace Winboard.ViewModel
         {
             InitializeComponent();
             DataContext = this;
+         
             entries = new  ObservableCollection<ItemViewModel>();
             this.WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = (SystemParameters.VirtualScreenWidth - this.Width) * 0.5;
@@ -54,7 +53,7 @@ namespace Winboard.ViewModel
 
             this.PrimaryReactangle.Text = "hello";
             this.SecondaryReactangle.Text = "Type";
-            this.TranslationReactangle.Text = "مرحبا";
+            this.TriReactangle.Text = "writ";
             
             this.Focusable = false;
             SourceInitialized += (s, e) => new Blureffect().EnableBlur(this);
@@ -64,7 +63,6 @@ namespace Winboard.ViewModel
             SourceInitialized += (s, e) => Wincorner.ChangeCornerStyle(this, Wincorner.CornerStyle.Round);
 
 
-            //UserCopiesList.Items.SortDescriptions.Add(new SortDescription("Copies", ListSortDirection.Descending));
 
             AddPreviousPinItem(PinList , pictures);
 
@@ -109,6 +107,7 @@ namespace Winboard.ViewModel
                 
                 ClipboardPopup.IsOpen = false;
                 _IsWpfWindowHidden = true;
+             
             }
 
             else if (MSG == WindowMessage.WM_HotKey && _IsWpfWindowHidden == true)
@@ -116,6 +115,7 @@ namespace Winboard.ViewModel
                
                 this.Show();
                 _IsWpfWindowHidden = false;
+            
             }
         }
 

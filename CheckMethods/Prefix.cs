@@ -153,10 +153,6 @@ class PreFix
         }
 
 
-        private bool DoesHaveRoot(string W)
-        {
-            return Prefix(W).Parent != null ? true : false;
-        }
 
         public List<string> GetPreFixList(string word)
         {
