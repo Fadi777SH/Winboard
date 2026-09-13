@@ -18,6 +18,7 @@ namespace Winboard
         static Assembly _assembly = new();
         static string NewElement { get; set; }
         static string CurrentElement { get; set; }
+        private static AutomationElement subscribedElement { get; set; }
         static AutomationFocusChangedEventHandler focusHandler = null;
 
         static AutomationPropertyChangedEventHandler propChangeHandler;
@@ -42,7 +43,7 @@ namespace Winboard
 
             if (arg.NewValue != arg.OldValue)
             {
-
+     
                 var tot = basicsInput.GetCurrentLineAndWord(AutomationElement.FocusedElement);
                 answersblock = _assembly.SetOrder(tot.CurrentLine, tot.CurrentWord);
                 var Prime = answersblock.Completion.Item1 != "" ? answersblock.Completion.Item1 : answersblock.Correction.Item1;
@@ -69,8 +70,10 @@ namespace Winboard
 
         static public void SubscribeToPropertyChange()
         {
+            
             UnsubscribePropertyChange();
-            Automation.AddAutomationPropertyChangedEventHandler(AutomationElement.FocusedElement,
+            subscribedElement = AutomationElement.FocusedElement;
+            Automation.AddAutomationPropertyChangedEventHandler(subscribedElement,
             TreeScope.Subtree, propChangeHandler = new AutomationPropertyChangedEventHandler(OnPropertyChange),
             ValuePattern.ValueProperty);
 
@@ -80,7 +83,7 @@ namespace Winboard
         {
             if (propChangeHandler == null) return;
             if(propChangeHandler!=null)
-            Automation.RemoveAutomationPropertyChangedEventHandler(AutomationElement.FocusedElement, propChangeHandler);
+            Automation.RemoveAutomationPropertyChangedEventHandler(subscribedElement, propChangeHandler);
 
             propChangeHandler = null;
         }

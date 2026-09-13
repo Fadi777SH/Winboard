@@ -1,4 +1,5 @@
-﻿using System;
+﻿using K4os.Compression.LZ4.Engine;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,6 +7,8 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Numerics;
 using System.Security.Cryptography.Xml;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,11 +22,13 @@ using System.Windows.Media.Imaging;
 using Winboard.ViewModel.triggers;
 using WinboardDesgin;
 using WindowsInput;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using formS = System.Windows.Forms;
 using WPF = System.Windows.Input;
 namespace Winboard.ViewModel
 { 
-    public partial class UI : Window
+    public partial class UI :System.Windows. Window
     {
 
 
@@ -148,8 +153,6 @@ namespace Winboard.ViewModel
         private void ClipboardMOnitor_ClipboardChange(object sender, EventArgs e)
         {
 
-
-            
             if (System.Windows.Clipboard.ContainsText())
             {
                 
