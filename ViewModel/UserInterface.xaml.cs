@@ -45,6 +45,7 @@ namespace Winboard.ViewModel
 
         List<string> PinList = GetData.PinLists;
         List<BitmapSource> pictures = GetData.PicturesPinLists;
+        Gettext StartCaptureText=new();
 
         public UI()
         {
@@ -74,6 +75,7 @@ namespace Winboard.ViewModel
             ClipboardPopup.MouseMove += new WPF.MouseEventHandler(ClipMenu_MouseMove);
            
             holoParticles.AddParticles(this);
+            StartCaptureText.intextfield();
         }
 
         private void MainWindow_SourceInitialized(object sender, EventArgs e)
@@ -370,6 +372,7 @@ namespace Winboard.ViewModel
 
             //unregiser the app hot-key
             W_Alt_hotkey?.Unregister();
+            StartCaptureText.AppClosed();
         }
 
         private void ListBoard_MouseDown(object sender, MouseButtonEventArgs e)

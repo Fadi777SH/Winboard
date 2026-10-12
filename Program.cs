@@ -12,7 +12,7 @@ class Program
         System.Windows.Application app = new();
 
         WPFWindow = new();
-        Gettext.intextfield();
+
         app.Run(WPFWindow);
 
        

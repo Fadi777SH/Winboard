@@ -22,15 +22,21 @@ namespace Winboard
         static AutomationFocusChangedEventHandler focusHandler = null;
 
         static AutomationPropertyChangedEventHandler propChangeHandler;
+     
 
-        public static void intextfield()
+        public  void intextfield()
         {
+            focusHandler = new AutomationFocusChangedEventHandler(OnFocusChange);
 
-      
-            SubscribeToPropertyChange();
-            SubscribeToFocusChange();
-                
-            
+            Automation.AddAutomationFocusChangedEventHandler(focusHandler);
+
+
+
+           
+            //SubscribeToPropertyChange();
+            //SubscribeToFocusChange();
+
+
             CurrentElement  = AutomationElement.FocusedElement.Current.Name;
            
         }
@@ -39,7 +45,6 @@ namespace Winboard
         static public void OnPropertyChange(object src, AutomationPropertyChangedEventArgs  arg)
         {
 
-            
 
             if (arg.NewValue != arg.OldValue)
             {
@@ -72,10 +77,12 @@ namespace Winboard
         {
             
             UnsubscribePropertyChange();
+
             subscribedElement = AutomationElement.FocusedElement;
             Automation.AddAutomationPropertyChangedEventHandler(subscribedElement,
             TreeScope.Subtree, propChangeHandler = new AutomationPropertyChangedEventHandler(OnPropertyChange),
             ValuePattern.ValueProperty);
+           
 
         }
 
@@ -92,6 +99,8 @@ namespace Winboard
         
         private static  void OnFocusChange(object src, AutomationFocusChangedEventArgs e)
         {
+            SubscribeToPropertyChange();
+
             if(AutomationElement.FocusedElement.Current.Name !=null)
             NewElement = AutomationElement.FocusedElement.Current.Name;
 
@@ -99,7 +108,6 @@ namespace Winboard
             if (NewElement != CurrentElement && NewElement != "MainWindow")
             {
                
-                intextfield();
                CurrentElement = NewElement;
             }
             
@@ -123,7 +131,10 @@ namespace Winboard
 
             focusHandler = null;
         }
-
+        public void AppClosed()
+        {
+            UnSubscribeToFocusChange();
+        }
 
     }
 
