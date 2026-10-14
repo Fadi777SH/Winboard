@@ -273,7 +273,7 @@ class GetData
             connection.Open();
             using var cmd = new SqliteCommand($"SELECT Picture FROM {PinListsPicturetable}", connection);
             using var reader = cmd.ExecuteReader();
-            if (reader.Read())
+            while (reader.Read())
             {
                 using var blobStream = reader.GetStream(0);
                 var decoder = new PngBitmapDecoder(blobStream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
