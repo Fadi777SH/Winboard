@@ -1,4 +1,4 @@
-this application that I called winboard is my first application on windows .
+**this is Winboard, a text corrector, an application for windows** 
 
 . it serve the same as you Gboard and IOS Keyboard
 
